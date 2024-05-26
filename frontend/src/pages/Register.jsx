@@ -1,17 +1,20 @@
-import { useState } from "react"
-import api from "../api"
+import CustomForm from "../components/CustomForm"
+import { Navigate } from "react-router-dom"
 
 const Register = () => {
-    const [data, setData] = useState(null)
 
-    api.get('/users/register/')
-    .then(res=>setData(res.data))
-    .catch(err => console.log(err))
+    const token = localStorage.getItem('access_token')
+
+    if (token) {
+        console.log('You are already logged in');
+        return <Navigate to={'/'} />
+    }
 
     return (
         <div>
-            <h1>Register</h1>
-            {JSON.stringify(data)}
+            <CustomForm
+            method={'register'}
+            route={'/users/register/'} />
         </div>
     )
 }

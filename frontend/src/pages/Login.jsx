@@ -1,17 +1,20 @@
-import { useState } from "react"
-import api from "../api"
+import { Navigate } from "react-router-dom"
+import CustomForm from "../components/CustomForm"
 
 const Login = () => {
-    const [data, setData] = useState(null)
+    const token = localStorage.getItem('access_token')
 
-    api.get('/users/login/')
-    .then(res=>setData(res.data))
-    .catch(err => console.log(err))
-
+    if (token) {
+        console.log('You are already logged in');
+        return <Navigate to={'/'} />
+    }
+    
     return (
         <div>
-            <h1>Login</h1>
-            {JSON.stringify(data)}
+            
+            <CustomForm
+            route={'/users/login/'}
+            method={'login'} />
         </div>
     )
 }
