@@ -4,6 +4,8 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import ProtectedRoutes from './components/ProtectedRoutes'
+import Profile from './pages/Profile'
+import { UserProvider } from './contexts/UserContext'
 
 function App() {
 
@@ -15,6 +17,7 @@ function App() {
 
   return (
     <>
+    <UserProvider>
       <BrowserRouter>
         <Routes>
           <Route path='/' 
@@ -24,8 +27,10 @@ function App() {
           <Route path='/login' element={<Login />} /> 
           <Route path='/register' element={<Register />} /> 
           <Route path='/logout' element={<Logout />} />
+          <Route path='/profile' element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
         </Routes>
       </BrowserRouter>
+    </UserProvider>
     </>
   )
 }

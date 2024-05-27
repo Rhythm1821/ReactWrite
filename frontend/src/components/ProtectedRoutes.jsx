@@ -6,7 +6,7 @@ const ProtectedRoutes = ({children}) => {
     const [isAuthorized, setIsAuthorized] = useState(null)
 
     useEffect(() => {
-        auth()
+        auth().catch(err => console.log(err))
     },[])
 
     const refresh_token = async () => {
@@ -26,7 +26,7 @@ const ProtectedRoutes = ({children}) => {
     const auth = async () => {
         const token = localStorage.getItem('access_token')
         if (!token){
-            setIsAuthorized(true)
+            setIsAuthorized(false)
             return
         }
         const decode = jwtDecode(token)
