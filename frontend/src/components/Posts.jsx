@@ -15,15 +15,15 @@ export default function Posts() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
+    const fetchPosts = async () => {
+        try {
+            const response = await api.get('/posts/?author=');
+            setPosts(response.data);
+        } catch (error) {
+            console.error("Failed to fetch posts", error);
+        }
+    };
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const response = await api.get('/posts/?author=');
-                setPosts(response.data);
-            } catch (error) {
-                console.error("Failed to fetch posts", error);
-            }
-        };
         fetchPosts();
     }, []);
 
@@ -42,9 +42,7 @@ export default function Posts() {
             setTitle('');
             setContent('');
             // Fetch the posts again to update the list
-            const response = await api.get('/posts/?author=');
-            setPosts(response.data);
-            console.log("Post created successfully");
+            await fetchPosts()
         } catch (error) {
             console.error("Failed to create post", error);
         }
