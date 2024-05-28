@@ -8,6 +8,8 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { UserContext } from "../contexts/UserContext";
+import Edit from "../pages/EditPost";
+import { Link } from "react-router-dom";
 
 export default function Posts() {
     const { user, loading } = useContext(UserContext);
@@ -27,7 +29,7 @@ export default function Posts() {
         fetchPosts();
     }, []);
 
-    const handleSubmit = async (e) => {
+    const handleAdd = async (e) => {
         e.preventDefault();
 
         if (!user) {
@@ -48,6 +50,16 @@ export default function Posts() {
         }
     };
 
+    const handleDelete = async (id) => {
+        try {
+            await api.delete(`/posts/delete/${id}`)
+            console.log("Post deleted successfully");
+            await fetchPosts()
+        } catch (error) {
+            console.log("Failed to delete post", error);
+        }
+    }
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -58,7 +70,7 @@ export default function Posts() {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleAdd}>
                 <input
                     type="text"
                     name="title"
@@ -76,7 +88,7 @@ export default function Posts() {
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                 />
-                <button type="submit">Submit</button>
+                <button type="submit">Add</button>
             </form>
 
             {posts.map(post => (
@@ -95,8 +107,12 @@ export default function Posts() {
                                 - {post.author.username}
                             </Typography>
                         </CardActions>
-                        <Button size="small">Edit</Button>
-                        <Button size="small">Delete</Button>
+                        {user.id===post.author.id &&
+                        <>
+                        <Button onClick={<Link to={`/edit/${post.id}`}>Edit</Link>}  size="small">Edit</Button>
+                        <Button onClick={() => {handleDelete(post.id)}} size="small">Delete</Button>
+                        </>
+                        }
                     </Card>
                     <br />
                 </Box>
