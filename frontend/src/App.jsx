@@ -7,6 +7,7 @@ import ProtectedRoutes from './components/ProtectedRoutes'
 import Profile from './pages/Profile'
 import { UserProvider } from './contexts/UserContext'
 import EditPost from './pages/EditPost'
+import PostDetail from './pages/PostDetail'
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
           <Route path='/logout' element={<Logout />} />
           <Route path='/profile' element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
           <Route path='/post/edit/:id' element={<ProtectedRoutes><EditPost /></ProtectedRoutes>} />
+          <Route path='/post/:id' element={<ProtectedRoutes><PostDetail /></ProtectedRoutes>} />
         </Routes>
       </BrowserRouter>
     </UserProvider>

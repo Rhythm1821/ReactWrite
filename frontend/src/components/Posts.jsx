@@ -9,13 +9,14 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { UserContext } from "../contexts/UserContext";
 import Edit from "../pages/EditPost";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 export default function Posts() {
     const { user, loading } = useContext(UserContext);
     const [posts, setPosts] = useState([]);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const navigate = useNavigate();
 
     const fetchPosts = async () => {
         try {
@@ -36,11 +37,11 @@ export default function Posts() {
             console.error("User is not logged in");
             return;
         }
-
+        // console.log('user', user);
         const author = user.id;
-        console.log("author",author);
         try {
             await api.post('/posts/', { title, content, author });
+            console.log("Post created successfully");
             setTitle('');
             setContent('');
             // Fetch the posts again to update the list
@@ -58,6 +59,10 @@ export default function Posts() {
         } catch (error) {
             console.log("Failed to delete post", error);
         }
+    }
+
+    const handleEdit = async (post) => {
+        navigate(`post/edit/${post.id}`, { state: { post }})
     }
 
     if (loading) {
@@ -91,6 +96,7 @@ export default function Posts() {
                 <button type="submit">Add</button>
             </form>
 
+            
             {posts.map(post => (
                 <Box sx={{ minWidth: 275 }} key={post.id}>
                     <Card variant="outlined">
@@ -107,9 +113,10 @@ export default function Posts() {
                                 - {post.author.username}
                             </Typography>
                         </CardActions>
+                        <Button onClick={() => navigate(`post/${post.id}`, { state: { post } })} size="small">View</Button>
                         {user.id===post.author.id &&
                         <>
-                        <Button onClick={<Link to={`/edit/${post.id}`}>Edit</Link>}  size="small">Edit</Button>
+                        <Button onClick={() => handleEdit(post)}  size="small">Edit</Button>
                         <Button onClick={() => {handleDelete(post.id)}} size="small">Delete</Button>
                         </>
                         }
