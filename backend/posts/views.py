@@ -39,11 +39,19 @@ class PostUpdateView(generics.UpdateAPIView):
     def get_object(self):
         post=Post.objects.get(pk=self.kwargs['pk'])
         return post
+    
+    def update(self, request, *args, **kwargs):
+        post = self.get_object()
+        data = request.data
+        profile = Profile.objects.get(id=data['author'])
+        post.title = data['title']
+        post.content = data['content']
+        post.author = profile
+        post.save()
+        print(f'Post updated for user: {self.request.user}')
+        serializer = self.get_serializer(post)
+        return Response(serializer.data)
 
-    def perform_update(self, serializer):
-        if serializer.is_valid():
-            serializer.save(author=self.request.user)
-            print(f'Post updated for user: {self.request.user}')
 
 class PostDeleteView(generics.DestroyAPIView):
     serializer_class = PostSerializer
