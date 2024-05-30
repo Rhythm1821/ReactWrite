@@ -47,6 +47,10 @@ const CustomForm = ({route, method}) => {
             name="password" id="password" placeholder='password' />
 
             <button className='form-button' type="submit">Submit</button>
+            {method==='login' ? (
+                <p>Don't have an account? <a href="/register">Register</a></p>)
+                : (<p>Already have an account? <a href="/login">Login</a></p>) }
+
         </form>
     )
 }

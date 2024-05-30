@@ -15,6 +15,7 @@ const Register = () => {
             <CustomForm
             method={'register'}
             route={'/users/register/'} />
+            
         </div>
     )
 }
