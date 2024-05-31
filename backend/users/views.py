@@ -14,13 +14,22 @@ class RegistrationView(generics.CreateAPIView):
     serializer_class=RegisterSerializer
     permission_classes=[AllowAny]
 
-class ProfileView(generics.RetrieveUpdateAPIView):
+class ProfileView(generics.RetrieveAPIView):
+    serializer_class=ProfileSerializer
+    permission_classes=[IsAuthenticated]
+
+    def get_object(self):
+        try:
+            return Profile.objects.get(pk=self.kwargs['pk'])
+        except:
+            print("Profile Does not exist")
+
+class MyProfileView(generics.RetrieveAPIView):
     serializer_class=ProfileSerializer
     permission_classes=[IsAuthenticated]
 
     def get_object(self):
         return Profile.objects.get(user=self.request.user)
-
 """
 {
 "username":"user01",

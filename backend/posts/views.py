@@ -13,7 +13,7 @@ class PostListView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     
     def get_queryset(self):
-        posts = Post.objects.all()
+        posts = Post.objects.all().order_by('-created_at')
         author_username = self.request.query_params.get('author', None or '')
         if author_username is not None and author_username != '':
             posts = posts.filter(author__user__username=author_username)
