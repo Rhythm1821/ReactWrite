@@ -108,7 +108,7 @@ export default function Posts() {
                         </CardContent>
                         <CardActions>
                             <Typography variant="body2" color="textSecondary">
-                                - {post.author.username}
+                                <Link to={`/profile/${post.author.id}`}>- {post.author.username}</Link>
                             </Typography>
                         </CardActions>
                         <Button onClick={() => navigate(`post/${post.id}`, { state: { post } })} size="small">View</Button>

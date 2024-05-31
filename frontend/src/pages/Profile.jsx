@@ -1,17 +1,34 @@
-// src/components/Profile.js
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import '../styles/profile.css';
+import api from '../api';
+import { useParams } from 'react-router-dom';
 
 const Profile = () => {
-    const { user } = useContext(UserContext);
-    console.log(user);
+    // const { user } = useContext(UserContext);
+    const [user, setUser] = useState({})
+    const { id } = useParams()
 
-    if (!user) return <div>Loading...</div>;
+    const fetchUser = async () => {
+        try {
+            const res = await api.get(`/users/profile/${id}`)
+            setUser(res.data)
+            console.log(res.data);
+        } catch (error) {
+            console.log("Failed to fetch user", error);
+            return <h2>No user found</h2>
+        }
+    }
+
+    useEffect(() => {
+        fetchUser()
+    }, [])
+    
+
+    if (!user.user) return <h2>No user found</h2>
 
     return (
         <div className="profile-container">
-            <h1>Profile</h1>
             {user.image && <img className="profile-image" src={user.image} alt={`${user.username}'s profile`} />}
             <div className="profile-details">
                 <h2 className="profile-username">{user.username}</h2>

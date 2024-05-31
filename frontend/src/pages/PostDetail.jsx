@@ -1,7 +1,6 @@
 import { useContext } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { UserContext } from "../contexts/UserContext"
-import EditPost from "./EditPost"
 import { Button } from "@mui/material"
 import api from "../api"
 

@@ -29,7 +29,7 @@ function App() {
           <Route path='/login' element={<Login />} /> 
           <Route path='/register' element={<Register />} /> 
           <Route path='/logout' element={<Logout />} />
-          <Route path='/profile' element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
+          <Route path='/profile/:id' element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
           <Route path='/post/edit/:id' element={<ProtectedRoutes><EditPost /></ProtectedRoutes>} />
           <Route path='/post/:id' element={<ProtectedRoutes><PostDetail /></ProtectedRoutes>} />
         </Routes>

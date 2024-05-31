@@ -11,9 +11,8 @@ export const UserProvider = ({ children }) => {
         const token = localStorage.getItem('access_token');
         if (token) {
             try {
-                const response = await api.get('/users/profile');
+                const response = await api.get(`/users/myprofile/`);
                 setUser(response.data);
-                console.log("User fetched successfully", response.data);
             } catch (error) {
                 console.log("Failed to fetch user", error);
             }

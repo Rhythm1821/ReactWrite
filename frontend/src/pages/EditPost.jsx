@@ -1,5 +1,4 @@
 import { useParams, useLocation } from "react-router-dom";
-import { UserContext } from "../contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
 import api from "../api";
 
@@ -7,10 +6,8 @@ export default function EditPost() {
   const { id } = useParams();
   const { state } = useLocation();
   const { post: initialPost } = state || {};
-  const { user, loading } = useContext(UserContext);
-  const [post, setPost] = useState(initialPost || { title: '', content: '', author: { username: '' } });
+  const [post, setPost] = useState(initialPost);
   const [error, setError] = useState(null);
-  const [postLoading, setPostLoading] = useState(!initialPost);
 
   useEffect(() => {
     if (!initialPost) {
@@ -41,8 +38,7 @@ export default function EditPost() {
     e.preventDefault();
     const title = post.title
     const content = post.content
-    const author = user.id
-    console.log('user',user);
+    const author = post.author.id
     api.put(`/posts/edit/${id}/`, { title, content, author })
       .then(() => {
         console.log("Post updated successfully");
@@ -53,7 +49,6 @@ export default function EditPost() {
       });
   }
 
-  if (loading || postLoading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
