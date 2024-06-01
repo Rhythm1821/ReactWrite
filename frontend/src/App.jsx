@@ -8,6 +8,7 @@ import Profile from './pages/Profile'
 import { UserProvider } from './contexts/UserContext'
 import EditPost from './pages/EditPost'
 import PostDetail from './pages/PostDetail'
+import ProfileUpdate from './pages/ProfileUpdate'
 
 function App() {
 
@@ -22,14 +23,12 @@ function App() {
     <UserProvider>
       <BrowserRouter>
         <Routes>
-          <Route path='/' 
-          element={
-          <ProtectedRoutes><Home /></ProtectedRoutes>
-          } />
+          <Route path='/' element={<ProtectedRoutes><Home /></ProtectedRoutes>} />
           <Route path='/login' element={<Login />} /> 
           <Route path='/register' element={<Register />} /> 
           <Route path='/logout' element={<Logout />} />
           <Route path='/profile/:id' element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
+          <Route path='/profile/edit' element={<ProtectedRoutes><ProfileUpdate /></ProtectedRoutes>} />
           <Route path='/post/edit/:id' element={<ProtectedRoutes><EditPost /></ProtectedRoutes>} />
           <Route path='/post/:id' element={<ProtectedRoutes><PostDetail /></ProtectedRoutes>} />
         </Routes>
