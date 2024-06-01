@@ -30,6 +30,23 @@ class MyProfileView(generics.RetrieveAPIView):
 
     def get_object(self):
         return Profile.objects.get(user=self.request.user)
+
+class ProfileUpdateView(generics.UpdateAPIView):
+    serializer_class=ProfileSerializer
+    permission_classes=[IsAuthenticated]
+    queryset=Profile.objects.all()
+
+    # def get_object(self):
+    #     return Profile.objects.get(user=self.request.user)
+    
+    # def update(self, request, *args, **kwargs):
+    #     profile = self.get_object()
+    #     data = request.data
+    #     profile.image = data['image']
+    #     profile.bio = data['bio']
+    #     profile.save()
+    #     print(f'Profile updated for user: {self.request.user}')
+
 """
 {
 "username":"user01",
