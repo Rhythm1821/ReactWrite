@@ -13,8 +13,11 @@ import Navbar from './components/Navbar'
 import CreatePost from './pages/CreatePost'
 import Contact from './pages/Contact'
 import About from './pages/About'
+import { useAuth } from './contexts/AuthContext'
 
 function App() {
+  const { isAuthenticated } = useAuth()
+  console.log('isAuthenticated', isAuthenticated);
 
   const Logout = () => {
     localStorage.removeItem('access_token')
@@ -25,7 +28,11 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        {isAuthenticated && 
+        <UserProvider>
         <Navbar />
+        </UserProvider>
+        }
         <Routes>
           <Route path='/' element={<ProtectedRoutes><Home /></ProtectedRoutes>} />
           <Route path='/home' element={<Navigate to={'/'} />} />

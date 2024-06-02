@@ -1,6 +1,7 @@
 import { useParams, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import api from "../api";
+import { Alert, Box, Button, Snackbar, Stack, TextField } from "@mui/material";
 
 export default function EditPost() {
   const { id } = useParams();
@@ -8,6 +9,7 @@ export default function EditPost() {
   const { post: initialPost } = state || {};
   const [post, setPost] = useState(initialPost);
   const [error, setError] = useState(null);
+  const [ snackBarOpen, setSnackBarOpen ] = useState(false);
 
   useEffect(() => {
     if (!initialPost) {
@@ -42,38 +44,66 @@ export default function EditPost() {
     api.put(`/posts/edit/${id}/`, { title, content, author })
       .then(() => {
         console.log("Post updated successfully");
-        window.location.href = "/";
+        // window.location.href = "/";
+        setSnackBarOpen(true)
       })
       .catch((error) => {
         console.error("Failed to update post", error);
       });
   }
 
+  const handleCloseSnackbar = () => {
+    setSnackBarOpen(false);
+  };
   if (error) return <div>{error}</div>;
 
   return (
-    <div>
-      <h1>Edit Post</h1>
-      <form onSubmit={handleEdit}>
-        <input
-          type="text"
-          name="title"
-          value={post.title}
-          onChange={handleChange}
-        />
-        <br />
-        <br />
-        <input
-          type="text"
-          name="content"
-          value={post.content}
-          onChange={handleChange}
-        />
-        <br />
-        <br />
-
-        <button type="submit">Save</button>
-      </form>
-    </div>
+    <>
+    <Box
+    component="form"
+    sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', m: 2 }}
+    noValidate
+    autoComplete="off"
+    onSubmit={handleEdit}
+  >
+    <h1>Edit Post</h1>
+    <Stack spacing={2} sx={{ width: '75ch' }}>
+      <TextField
+        id="post-title"
+        name="title"
+        label="Title"
+        multiline
+        maxRows={4}
+        fullWidth
+        required
+        value={post.title}
+        onChange={handleChange}
+      />
+      <TextField
+        id="post-content"
+        name="content"
+        label="Content"
+        multiline
+        rows={4}
+        fullWidth
+        required
+        value={post.content}
+        onChange={handleChange}
+      />
+      <Button variant="contained" type="submit">
+        Save
+      </Button>
+    </Stack>
+  </Box>
+      <Snackbar
+        open={snackBarOpen}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Post updated successfully!
+        </Alert>
+      </Snackbar>
+  </>
   );
 }

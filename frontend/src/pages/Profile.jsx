@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import '../styles/profile.css';
 import api from '../api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Button } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Profile = () => {
     
     const [user, setUser] = useState({})
     const { id } = useParams()
+    const navigate = useNavigate()
 
     const fetchUser = async () => {
         try {
@@ -34,6 +37,7 @@ const Profile = () => {
                 <p className="profile-email">{user.user && user.user.email}</p>
                 <p className="profile-bio">{user.bio}</p>
             </div>
+            <Button startIcon={<EditIcon />} onClick={() => navigate(`/profile/edit/`)} size="small">Edit</Button>
         </div>
     );
 };

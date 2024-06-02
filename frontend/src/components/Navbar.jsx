@@ -13,9 +13,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Fab } from '@mui/material';
+import { Fab, Menu, MenuItem } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {UserContext} from '../contexts/UserContext'
 import { useContext, useState } from 'react';
@@ -26,13 +26,24 @@ const navItems = ['Home', 'About', 'Contact'];
 function Navbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   const { user, loading } = useContext(UserContext);
+  const navigate = useNavigate();
 
   if (loading) {
     return <div>Loading...</div>
   }
-  console.log(user);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -108,14 +119,41 @@ function Navbar(props) {
             {
               localStorage.getItem('access_token') ? 
                 <>
-                <Link to={`/logout`} >
-                    <Button sx={{ color: '#fff' }}>
-                        Logout
-                    </Button>
-                </Link> 
-                <Link to={`/profile/${user.id}`}>
+                <Button
+                  id="basic-button"
+                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleClick}
+                >
                   <img src={user.image} height={50} width={50} alt="" style={{ borderRadius: '50%', overflow: 'hidden' }} />
-                </Link> 
+                </Button>
+
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                > 
+                  <MenuItem onClick={() => {
+                    handleClose();
+                    navigate(`/profile/${user.id}/`);
+                  }}>My Profile</MenuItem>
+                  <MenuItem onClick={() => {
+                    navigate('/')
+                    handleClose();
+                  }}>My account</MenuItem>
+                  <MenuItem onClick={() => {
+                    navigate('/logout')
+                    handleClose();
+                  }}>Logout</MenuItem>
+                </Menu>
+                {/* <Link to={`/profile/${user.id}/`}>
+                  <img src={user.image} height={50} width={50} alt="" style={{ borderRadius: '50%', overflow: 'hidden' }} />
+                </Link>  */}
             </>
                 : 
               (<p>Login</p>)

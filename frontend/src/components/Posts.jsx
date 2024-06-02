@@ -1,6 +1,8 @@
 import { useEffect, useState, useContext } from "react";
 import api from "../api";
 
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -32,23 +34,6 @@ export default function Posts() {
         }
     }, [loading, user]);
 
-    const handleAdd = async (e) => {
-        e.preventDefault();
-        if (!user) {
-            console.error("User is not logged in");
-            return;
-        }
-        const author = user.id;
-        try {
-            await api.post('/posts/', { title, content, author });
-            console.log("Post created successfully");
-            setTitle('');
-            setContent('');
-            await fetchPosts(); // Fetch the posts again to update the list
-        } catch (error) {
-            console.error("Failed to create post", error);
-        }
-    };
 
     const handleDelete = async (id) => {
         try {
@@ -74,26 +59,7 @@ export default function Posts() {
 
     return (
         <>
-            <form onSubmit={handleAdd}>
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Title"
-                    required
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-                <br />
-                <br />
-                <textarea
-                    name="content"
-                    placeholder="Content"
-                    required
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                />
-                <button type="submit">Add</button>
-            </form>
+        <br />
 
             {posts.map(post => (
                 <Box sx={{ minWidth: 275 }} key={post.id}>
@@ -114,8 +80,8 @@ export default function Posts() {
                         <Button onClick={() => navigate(`post/${post.id}`, { state: { post } })} size="small">View</Button>
                         {user.id === post.author.id &&
                             <>
-                                <Button onClick={() => handleEdit(post)} size="small">Edit</Button>
-                                <Button onClick={() => { handleDelete(post.id) }} size="small">Delete</Button>
+                                <Button startIcon={<EditIcon />} onClick={() => handleEdit(post)} size="small">Edit</Button>
+                                <Button startIcon={<DeleteIcon />} onClick={() => { handleDelete(post.id) }} size="small">Delete</Button>
                             </>
                         }
                     </Card>
