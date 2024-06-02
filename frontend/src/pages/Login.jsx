@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom"
 import CustomForm from "../components/CustomForm"
+import { Container } from "@mui/material";
 
 const Login = () => {
     const token = localStorage.getItem('access_token')
@@ -10,12 +11,10 @@ const Login = () => {
     }
     
     return (
-        <div>
             
             <CustomForm
             route={'/users/login/'}
             method={'login'} />
-        </div>
     )
 }
 

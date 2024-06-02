@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../contexts/UserContext';
 import '../styles/profile.css';
 import api from '../api';
 import { useParams } from 'react-router-dom';
 
 const Profile = () => {
-    // const { user } = useContext(UserContext);
+    
     const [user, setUser] = useState({})
     const { id } = useParams()
 
@@ -28,7 +27,7 @@ const Profile = () => {
     if (!user.user) return <h2>No user found</h2>
 
     return (
-        <div className="profile-container">
+        <div className="profile-container" >
             {user.image && <img className="profile-image" src={user.image} alt={`${user.username}'s profile`} />}
             <div className="profile-details">
                 <h2 className="profile-username">{user.username}</h2>
