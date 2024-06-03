@@ -8,11 +8,16 @@ import { UserContext } from '../contexts/UserContext';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
 
-const CreatePostForm = () => {
-  const { user } = React.useContext(UserContext);
+const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const navigate = useNavigate()
+  
+  const { user, loading } = React.useContext(UserContext);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  console.log('user', user);
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -69,4 +74,4 @@ const CreatePostForm = () => {
   );
 };
 
-export default CreatePostForm;
+export default CreatePost;

@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 export default function ProfileUpdate() {
     const {user, loading} = useContext(UserContext)
     if (loading) return <div>Loading...</div>
+    console.log('user', user);
     // const [username, setUsername] = useState(user.username)
     // const [email, setEmail] = useState(user.email)
     const [bio, setBio] = useState(user.bio)

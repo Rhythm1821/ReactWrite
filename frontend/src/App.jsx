@@ -14,6 +14,7 @@ import CreatePost from './pages/CreatePost'
 import Contact from './pages/Contact'
 import About from './pages/About'
 import { useAuth } from './contexts/AuthContext'
+import UserAccount from './pages/UserAccount'
 
 function App() {
   const { isAuthenticated } = useAuth()
@@ -36,14 +37,25 @@ function App() {
         <Routes>
           <Route path='/' element={<ProtectedRoutes><Home /></ProtectedRoutes>} />
           <Route path='/home' element={<Navigate to={'/'} />} />
-          <Route path='/create' element={<ProtectedRoutes><CreatePost /></ProtectedRoutes>} />
+          <Route path='/create' element={<ProtectedRoutes>
+            <UserProvider>
+            <CreatePost />
+            </UserProvider>
+          </ProtectedRoutes>} />
           <Route path='/login' element={<Login />} /> 
           <Route path='/register' element={<Register />} /> 
           <Route path='/logout' element={<Logout />} />
           <Route path='/contact' element={<ProtectedRoutes><Contact /></ProtectedRoutes>} />
-          <Route path='/about' element={<ProtectedRoutes><About /></ProtectedRoutes>} />
+          <Route path='/about' element={<ProtectedRoutes><UserProvider><About /></UserProvider></ProtectedRoutes>} />
           <Route path='/profile/:id' element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
-          <Route path='/profile/edit' element={<ProtectedRoutes><ProfileUpdate /></ProtectedRoutes>} />
+          <Route path='/my-account' element={
+          <ProtectedRoutes>
+            <UserProvider>
+            <UserAccount />
+            </UserProvider>
+          </ProtectedRoutes>
+          } />
+          <Route path='/profile/edit' element={<ProtectedRoutes><UserProvider><ProfileUpdate /></UserProvider></ProtectedRoutes>} />
           <Route path='/post/edit/:id' element={<ProtectedRoutes><EditPost /></ProtectedRoutes>} />
           <Route path='/post/:id' element={<ProtectedRoutes><PostDetail /></ProtectedRoutes>} />
         </Routes>

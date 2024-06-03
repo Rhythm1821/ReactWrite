@@ -143,7 +143,7 @@ function Navbar(props) {
                     navigate(`/profile/${user.id}/`);
                   }}>My Profile</MenuItem>
                   <MenuItem onClick={() => {
-                    navigate('/')
+                    navigate('/my-account')
                     handleClose();
                   }}>My account</MenuItem>
                   <MenuItem onClick={() => {
@@ -151,9 +151,6 @@ function Navbar(props) {
                     handleClose();
                   }}>Logout</MenuItem>
                 </Menu>
-                {/* <Link to={`/profile/${user.id}/`}>
-                  <img src={user.image} height={50} width={50} alt="" style={{ borderRadius: '50%', overflow: 'hidden' }} />
-                </Link>  */}
             </>
                 : 
               (<p>Login</p>)
