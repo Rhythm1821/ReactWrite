@@ -24,6 +24,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model=Profile
         fields='__all__'
 
-    # def create(self, validated_data):
-    #     profile = Profile.objects.create(**validated_data)
-    #     return profile
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email']

@@ -7,7 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import generics
 
 from .models import Profile
-from .serializers import RegisterSerializer,ProfileSerializer
+from .serializers import RegisterSerializer,ProfileSerializer, UserSerializer
 
 class RegistrationView(generics.CreateAPIView):
     queryset=User.objects.all()
@@ -36,16 +36,16 @@ class ProfileUpdateView(generics.UpdateAPIView):
     permission_classes=[IsAuthenticated]
     queryset=Profile.objects.all()
 
-    # def get_object(self):
-    #     return Profile.objects.get(user=self.request.user)
+
+class UserViewSet(generics.RetrieveAPIView):
+    queryset=User.objects.all()
+    serializer_class=UserSerializer
+    permission_classes=[IsAuthenticated]
     
-    # def update(self, request, *args, **kwargs):
-    #     profile = self.get_object()
-    #     data = request.data
-    #     profile.image = data['image']
-    #     profile.bio = data['bio']
-    #     profile.save()
-    #     print(f'Profile updated for user: {self.request.user}')
+    def get_object(self):
+        user=User.objects.get(id=self.kwargs['pk'])
+        print(user)
+        return user
 
 """
 {
