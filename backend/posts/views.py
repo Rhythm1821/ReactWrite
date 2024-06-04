@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.response import Response
-from rest_framework import status
 
 from .models import Post,Profile
 from .serializers import PostSerializer
@@ -65,3 +65,28 @@ class PostDeleteView(generics.DestroyAPIView):
         post = self.get_object()
         post.delete()
         print(f'Post deleted for user: {self.request.user}')
+
+from django.http import HttpResponse
+def postLike(request, postId):
+    post = Post.objects.get(id=postId)
+    user = request.user
+    if user in post.likes.all():
+        post.likes.remove(user)
+        print('Unlike')
+    else:
+        post.likes.add(user)
+        print('like')
+
+    return HttpResponse('Success')
+    
+class PostLikeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, postId):
+        post = Post.objects.get(id=postId)
+        user = request.user
+        if user in post.likes.all():
+            post.likes.remove(user)
+        else:
+            post.likes.add(user)
+        return Response('Success')
