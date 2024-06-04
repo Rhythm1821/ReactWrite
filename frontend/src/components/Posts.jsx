@@ -11,6 +11,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { UserContext } from "../contexts/UserContext";
 import { Link, useNavigate } from "react-router-dom";
+import { ThemeProvider } from "@emotion/react";
+import { Container, createTheme } from "@mui/material";
+import LikeButton from "./LikeButton";
 
 export default function Posts() {
     const { user, loading } = useContext(UserContext);
@@ -18,6 +21,7 @@ export default function Posts() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const navigate = useNavigate();
+    const theme = createTheme();
 
     const fetchPosts = async () => {
         try {
@@ -49,6 +53,16 @@ export default function Posts() {
         navigate(`post/edit/${post.id}`, { state: { post } });
     };
 
+    const toggleLike = async () => {
+        console.log('Toggling like')
+        try {
+            await api.post(`/posts/toggle-like-button/${postId}`);
+            console.log('Toggled like');
+        } catch (error) {
+            console.log('Failed to toggle like', error);
+        }
+      }
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -63,6 +77,7 @@ export default function Posts() {
 
             {posts.map(post => (
                 <Box sx={{ minWidth: 275 }} key={post.id}>
+                    
                     <Card variant="outlined">
                         <CardContent>
                             <Typography variant="h5" component="div">
@@ -77,6 +92,14 @@ export default function Posts() {
                                 <Link to={`/profile/${post.author.id}`}>- {post.author.username}</Link>
                             </Typography>
                         </CardActions>
+                        <ThemeProvider theme={theme}>
+                            <Container>
+                                <Typography variant="h4" component="h1" gutterBottom>
+                                </Typography>
+                                
+                                <LikeButton postId={post.id} numOfLikes={post.likes.length} />
+                            </Container>
+                        </ThemeProvider>
                         <Button onClick={() => navigate(`post/${post.id}`, { state: { post } })} size="small">View</Button>
                         {user.id === post.author.id &&
                             <>

@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
     const refresh_token = localStorage.getItem('refresh_token');
     try {
       const response = await api.post('/users/token/refresh/', { refresh: refresh_token });
+      console.log('Response after refresh token', response);
       if (response.status === 200) {
         localStorage.setItem('access_token', response.data.access);
         setIsAuthenticated(true);
@@ -33,6 +34,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
       }
     } catch (error) {
+      console.log('Refresh token response', refresh_token);
       console.error("Failed to refresh token", error);
     }
   };

@@ -18,7 +18,6 @@ import UserAccount from './pages/UserAccount'
 
 function App() {
   const { isAuthenticated } = useAuth()
-  console.log('isAuthenticated', isAuthenticated);
 
   const Logout = () => {
     localStorage.removeItem('access_token')

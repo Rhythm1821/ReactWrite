@@ -10,8 +10,15 @@ api.interceptors.request.use(
         if (token) {
             config.headers.Authorization = `Bearer ${token}`
         }
+        const csrfTokenMatch = document.cookie.match(/csrftoken=(\w+)/)
+        if (csrfTokenMatch) {
+            console.log(csrfTokenMatch[1])
+            const csrfToken = csrfTokenMatch[1]
+            config.headers['X-CSRFToken'] = csrfToken
+        } else console.log('CSRF token not found');
         return config
-    },(error) => {
+    },
+    (error) => {
         return Promise.reject(error)
     }
 )
