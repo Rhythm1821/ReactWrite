@@ -10,4 +10,6 @@ urlpatterns = [
     path('login/',TokenObtainPairView.as_view(),name='login'),
     path('token/refresh/',TokenRefreshView.as_view(),name='refresh'),
     path('<int:pk>/',views.UserViewSet.as_view(),name='user'),
+    path('followers/<str:username>/',views.FollowersAPIView.as_view(),name='follow'),
+    path('following/<str:username>/',views.FollowingAPIView.as_view(),name='follow'),
 ]

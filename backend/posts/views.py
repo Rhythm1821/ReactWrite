@@ -89,4 +89,8 @@ class PostLikeView(APIView):
             post.likes.remove(user)
         else:
             post.likes.add(user)
-        return Response('Success')
+        return Response(post.num_of_likes())
+    
+    def get(self, request, postId):
+        post = Post.objects.get(id=postId)
+        return Response(request.user in post.likes.all())
