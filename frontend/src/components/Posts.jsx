@@ -95,9 +95,9 @@ export default function Posts() {
                         <ThemeProvider theme={theme}>
                             <Container>
                                 <Typography variant="h4" component="h1" gutterBottom>
+                                <LikeButton postId={post.id} numOfLikes={post.likes.length} />
                                 </Typography>
                                 
-                                <LikeButton postId={post.id} numOfLikes={post.likes.length} />
                             </Container>
                         </ThemeProvider>
                         <Button onClick={() => navigate(`post/${post.id}`, { state: { post } })} size="small">View</Button>

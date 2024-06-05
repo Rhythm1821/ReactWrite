@@ -90,7 +90,7 @@ function Navbar(props) {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' }, mr: 2 }}
           >
-            React Write
+            ReactWrite
           </Typography>
           
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>

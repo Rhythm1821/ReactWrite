@@ -1,8 +1,9 @@
 import { useContext } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { UserContext } from "../contexts/UserContext"
-import { Button } from "@mui/material"
+import { Button, Container, ThemeProvider, Typography, createTheme } from "@mui/material"
 import api from "../api"
+import LikeButton from "../components/LikeButton"
 
 export default function PostDetail() {
     const { id } = useParams()
@@ -10,6 +11,7 @@ export default function PostDetail() {
     const navigate = useNavigate()
     const { post: initialPost } = state || {}
     const { user, loading } = useContext(UserContext)
+    const theme = createTheme();
 
     const post = initialPost || {}
 
@@ -30,11 +32,18 @@ export default function PostDetail() {
             <p>{post.content}</p>
             <p>Author: {post.author.username}</p>
             <p>Created at: {post.created_at}</p>
+            <ThemeProvider theme={theme}>
+                <Container>
+                    <Typography variant="h4" component="h1" gutterBottom>
+                        <LikeButton postId={post.id} numOfLikes={post.likes.length} />
+                    </Typography>
+                </Container>
+            </ThemeProvider>
             {
                 user && user.id === post.author.id && (
                     <>
-                    <Button onClick={() => navigate(`/post/edit/${post.id}`, { state: { post }})}  size="small">Edit</Button>
-                    <Button onClick={() => handleDelete(post.id)} size="small">Delete</Button>
+                        <Button onClick={() => navigate(`/post/edit/${post.id}`, { state: { post } })} size="small">Edit</Button>
+                        <Button onClick={() => handleDelete(post.id)} size="small">Delete</Button>
                     </>
                 )
             }
