@@ -46,7 +46,7 @@ function App() {
           <Route path='/logout' element={<Logout />} />
           <Route path='/contact' element={<ProtectedRoutes><Contact /></ProtectedRoutes>} />
           <Route path='/about' element={<ProtectedRoutes><UserProvider><About /></UserProvider></ProtectedRoutes>} />
-          <Route path='/profile/:id' element={<ProtectedRoutes><Profile /></ProtectedRoutes>} />
+          <Route path='/profile/:id' element={<ProtectedRoutes><UserProvider><Profile /></UserProvider></ProtectedRoutes>} />
           <Route path='/my-account' element={
           <ProtectedRoutes>
             <UserProvider>
