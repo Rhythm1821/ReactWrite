@@ -84,11 +84,19 @@ class FollowersAPIView(APIView):
     def post(self, request, username):
         user = request.user
         profile = Profile.objects.get(user__username=username)
-        if user.profile.followed_by.filter(pk=profile.pk).exists():
-            user.profile.followed_by.remove(profile)
+        if user.profile.follows.filter(pk=profile.pk).exists():
+            user.profile.follows.remove(profile)
         else:
-            user.profile.followed_by.add(profile)
+            user.profile.follows.add(profile)
         return Response(status=status.HTTP_200_OK)
+    
+    def get(self, request, username):
+        user = request.user
+        profile = Profile.objects.get(user__username=username)
+        if user.profile.follows.filter(pk=profile.pk).exists():
+            return Response({'isFollowing':True})
+        else:
+            return Response({'isFollowing':False})
     
 class FollowingAPIView(APIView):
     permission_classes=[IsAuthenticated]
@@ -101,33 +109,11 @@ class FollowingAPIView(APIView):
         else:
             user.profile.follows.add(profile)
         return Response(status=status.HTTP_200_OK)
-
-
-
-# from django.shortcuts import get_object_or_404
-# from rest_framework import status
-# from rest_framework.response import Response
-# from rest_framework.permissions import IsAuthenticated
-# from rest_framework.views import APIView
-# from django.db import transaction
-# from .models import Profile
-
-# class FollowAPIView(APIView):
-#     permission_classes = [IsAuthenticated]
-
-#     def post(self, request, username):
-#         user = request.user
-#         # Safely retrieve the profile, raise 404 if not found
-#         profile = get_object_or_404(Profile, user__username=username)
-
-#         # Use transaction.atomic to ensure database integrity
-#         with transaction.atomic():
-#             if user.profile.follows.filter(pk=profile.pk).exists():
-#                 user.profile.follows.remove(profile)
-#                 action = 'unfollowed'
-#             else:
-#                 user.profile.follows.add(profile)
-#                 action = 'followed'
-        
-#         # Return a more informative response
-#         return Response({'status': 'success', 'action': action, 'profile': username}, status=status.HTTP_200_OK)
+    
+    def get(self, request, username):
+        user = request.user
+        profile = Profile.objects.get(user__username=username)
+        if user.profile.follows.filter(pk=profile.pk).exists():
+            return Response({'isFollowing':True})
+        else:
+            return Response({'isFollowing':False})
