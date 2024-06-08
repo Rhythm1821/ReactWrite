@@ -15,7 +15,7 @@ api.interceptors.request.use(
             console.log(csrfTokenMatch[1])
             const csrfToken = csrfTokenMatch[1]
             config.headers['X-CSRFToken'] = csrfToken
-        } else console.log('CSRF token not found');
+        }
         return config
     },
     (error) => {

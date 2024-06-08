@@ -4,6 +4,7 @@ import { UserContext } from "../contexts/UserContext"
 import { Button, Container, ThemeProvider, Typography, createTheme } from "@mui/material"
 import api from "../api"
 import LikeButton from "../components/LikeButton"
+import Comments from "../components/Comments"
 
 export default function PostDetail() {
     const { id } = useParams()
@@ -47,6 +48,7 @@ export default function PostDetail() {
                     </>
                 )
             }
+            <Comments postId={post.id} authorId={post.author.id} />
         </>
     )
 }
