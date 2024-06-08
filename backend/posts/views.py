@@ -3,9 +3,11 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth.models import User
 
 from .models import Post,Profile
-from .serializers import PostSerializer
+from .serializers import PostSerializer,CommentSerializer
 
 # Create your views here.
 class PostListView(generics.ListCreateAPIView):
@@ -48,7 +50,6 @@ class PostUpdateView(generics.UpdateAPIView):
         post.content = data['content']
         post.author = profile
         post.save()
-        print(f'Post updated for user: {self.request.user}')
         serializer = self.get_serializer(post)
         return Response(serializer.data)
 
@@ -64,7 +65,6 @@ class PostDeleteView(generics.DestroyAPIView):
     def perform_destroy(self, serializer):
         post = self.get_object()
         post.delete()
-        print(f'Post deleted for user: {self.request.user}')
 
 from django.http import HttpResponse
 def postLike(request, postId):
@@ -72,10 +72,8 @@ def postLike(request, postId):
     user = request.user
     if user in post.likes.all():
         post.likes.remove(user)
-        print('Unlike')
     else:
         post.likes.add(user)
-        print('like')
 
     return HttpResponse('Success')
     
@@ -94,3 +92,21 @@ class PostLikeView(APIView):
     def get(self, request, postId):
         post = Post.objects.get(id=postId)
         return Response(request.user in post.likes.all())
+    
+class PostCommentView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, postId):
+        post = Post.objects.get(id=postId)
+        comments = post.comments.all().order_by('-created_at')
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+    
+    def post(self,request, postId):
+        post = Post.objects.get(id=postId)
+        data = request.data
+        author = User.objects.get(id=data['author'])
+        print("author",author)
+        comment = data['content']
+        post.comments.create(author=author, content=comment)
+        return Response(status=status.HTTP_200_OK)

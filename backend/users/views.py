@@ -55,29 +55,6 @@ from rest_framework.views import APIView
 from django.db import transaction
 from .models import Profile
 
-# class FollowersAPIView(APIView):
-#     permission_classes = [IsAuthenticated]
-
-#     def post(self, request, username):
-#         user = request.user
-#         # Safely retrieve the profile to be followed/unfollowed
-#         profile_to_follow = get_object_or_404(Profile, user__username=username)
-
-#         # Use transaction.atomic to ensure database integrity
-#         with transaction.atomic():
-#             if user.profile.follows.filter(pk=profile_to_follow.pk).exists():
-#                 user.profile.follows.remove(profile_to_follow)
-#                 action = 'unfollowed'
-#             else:
-#                 user.profile.follows.add(profile_to_follow)
-#                 action = 'followed'
-
-#         # Optionally, you could serialize and return updated profile data
-#         followers = profile_to_follow.followed_by.all()
-#         followers_usernames = [follower.user.username for follower in followers]
-
-#         return Response({'status': 'success', 'action': action, 'followers': followers_usernames}, status=status.HTTP_200_OK)
-
 class FollowersAPIView(APIView):
     permission_classes = [IsAuthenticated]
 

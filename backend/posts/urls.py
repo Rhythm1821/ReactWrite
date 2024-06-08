@@ -7,5 +7,6 @@ urlpatterns = [
     path('edit/<int:pk>/',views.PostUpdateView.as_view(),name='edit_post'),
     path('delete/<int:pk>/',views.PostDeleteView.as_view(),name='delete_post'),
     path('toggle-like-button/<int:postId>/',views.PostLikeView.as_view(), name='post_like'),
+    path('comments/<int:postId>/', views.PostCommentView.as_view(), name='post_comments'),
     
 ]

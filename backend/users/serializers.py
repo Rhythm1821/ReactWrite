@@ -32,7 +32,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     
     def get_follows(self, obj):
         follows = obj.follows.all()
-        print("follows",follows)
         return [profile.user.username for profile in follows]
 
 class UserSerializer(serializers.ModelSerializer):
