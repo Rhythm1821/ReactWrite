@@ -1,58 +1,69 @@
 import { useEffect, useState } from "react";
+import { Box, Button, Card, CardContent, List, ListItem, TextField, Typography } from "@mui/material";
 import api from "../api";
 
-export default function Comments({postId,authorId}) {
+export default function Comments({ postId, authorId }) {
     const [comments, setComments] = useState([]);
     const [content, setContent] = useState('');
 
-    
-
     const fetchComments = async () => {
         try {
-            const res = await api.get(`/posts/comments/${postId}/`)
+            const res = await api.get(`/posts/comments/${postId}/`);
             setComments(res.data);
         } catch (error) {
             console.log("Failed to fetch comments", error);
         }
-    }
-    useEffect(() => {
+    };
 
+    useEffect(() => {
         fetchComments();
-    })
+    }, []); // Adding empty dependency array to run only on mount
 
     const handleComment = async (e) => {
         e.preventDefault();
         try {
-            if (!content) return
-            await api.post(`/posts/comments/${postId}/`, {author: authorId, content: content})
+            if (!content) return;
+            await api.post(`/posts/comments/${postId}/`, { author: authorId, content: content });
             console.log("Comment created successfully");
             fetchComments();
             setContent('');
-
         } catch (error) {
             console.log("Failed to create comment", error);
         }
-    }
+    };
 
     return (
-        <>
-            <h1>Comments</h1>
-
-            <form onSubmit={handleComment} action="" method="post">
-                <input type="text" onChange={(e)=>setContent(e.target.value)} name="content" placeholder="Comment" />
-                <button>Submit</button>
-            </form>
-
-            <ul>
-            <h2>{comments.map(comment => {
-                return (
-                    <li key={comment.id}>
-                        <p>{comment.content}</p>
-                        <h5>{comment.username}</h5>
-                    </li>
-                )
-            })}</h2>
-            </ul>
-        </>
-    )
+        <Box sx={{ mt: 4 }}>
+            <Typography variant="h5" component="h2" gutterBottom>
+                Comments
+            </Typography>
+            <Box component="form" onSubmit={handleComment} sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    placeholder="Comment"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    sx={{ mr: 2 }}
+                />
+                <Button variant="contained" color="primary" type="submit">
+                    Submit
+                </Button>
+            </Box>
+            <List>
+                {comments.map((comment) => (
+                    <ListItem key={comment.id} sx={{ mb: 1, pl: 0 }}>
+                        <Card sx={{ width: '100%', maxWidth: 600, ml: 0 }}>
+                            <CardContent>
+                                <Typography variant="body1">{comment.content}</Typography>
+                                <Typography variant="subtitle2" color="textSecondary">
+                                    {comment.username}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </ListItem>
+                ))}
+            </List>
+        </Box>
+    );
 }

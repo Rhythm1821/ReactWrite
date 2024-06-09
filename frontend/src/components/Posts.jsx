@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from "react";
 import api from "../api";
-
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
@@ -11,15 +10,12 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { UserContext } from "../contexts/UserContext";
 import { Link, useNavigate } from "react-router-dom";
-import { ThemeProvider } from "@emotion/react";
-import { Container, createTheme } from "@mui/material";
+import { ThemeProvider, Container, createTheme, IconButton } from "@mui/material";
 import LikeButton from "./LikeButton";
 
 export default function Posts() {
     const { user, loading } = useContext(UserContext);
     const [posts, setPosts] = useState([]);
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
     const navigate = useNavigate();
     const theme = createTheme();
 
@@ -38,7 +34,6 @@ export default function Posts() {
         }
     }, [loading, user]);
 
-
     const handleDelete = async (id) => {
         try {
             await api.delete(`/posts/delete/${id}`);
@@ -53,16 +48,6 @@ export default function Posts() {
         navigate(`post/edit/${post.id}`, { state: { post } });
     };
 
-    const toggleLike = async () => {
-        console.log('Toggling like')
-        try {
-            await api.post(`/posts/toggle-like-button/${postId}`);
-            console.log('Toggled like');
-        } catch (error) {
-            console.log('Failed to toggle like', error);
-        }
-      }
-
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -72,45 +57,48 @@ export default function Posts() {
     }
 
     return (
-        <>
-        <br />
-
-            {posts.map(post => (
-                <Box sx={{ minWidth: 275 }} key={post.id}>
-                    
-                    <Card variant="outlined">
-                        <CardContent>
-                            <Typography variant="h5" component="div">
-                                {post.title}
-                            </Typography>
-                            <Typography variant="body2">
-                                {post.content}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Typography variant="body2" color="textSecondary">
-                                <Link to={`/profile/${post.author.id}`}>- {post.author.username}</Link>
-                            </Typography>
-                        </CardActions>
-                        <ThemeProvider theme={theme}>
-                            <Container>
-                                <Typography variant="h4" component="h1" gutterBottom>
-                                <LikeButton postId={post.id} numOfLikes={post.likes.length} />
+        <ThemeProvider theme={theme}>
+            <Container>
+                {posts.map((post) => (
+                    <Box sx={{ mb: 4 }} key={post.id}>
+                        <Card variant="outlined" sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <CardContent>
+                                <Typography variant="h5" component="div" gutterBottom>
+                                    {post.title}
                                 </Typography>
-                                
-                            </Container>
-                        </ThemeProvider>
-                        <Button onClick={() => navigate(`post/${post.id}`, { state: { post } })} size="small">View</Button>
-                        {user.id === post.author.id &&
-                            <>
-                                <Button startIcon={<EditIcon />} onClick={() => handleEdit(post)} size="small">Edit</Button>
-                                <Button startIcon={<DeleteIcon />} onClick={() => { handleDelete(post.id) }} size="small">Delete</Button>
-                            </>
-                        }
-                    </Card>
-                    <br />
-                </Box>
-            ))}
-        </>
+                                <Typography variant="body1" color="textSecondary" gutterBottom>
+                                    {post.content}
+                                </Typography>
+                                <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+                                    <Typography variant="subtitle2" color="textSecondary" sx={{ mr: 2 }}>
+                                        <Link to={`/profile/${post.author.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            - {post.author.username}
+                                        </Link>
+                                    </Typography>
+                                    <LikeButton postId={post.id} numOfLikes={post.likes.length} />
+                                </Box>
+                            </CardContent>
+                            <CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
+                                <Box>
+                                    <Button size="small" onClick={() => navigate(`post/${post.id}`, { state: { post } })}>
+                                        View
+                                    </Button>
+                                    {user.id === post.author.id && (
+                                        <>
+                                            <IconButton onClick={() => handleEdit(post)} size="small">
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => handleDelete(post.id)} size="small">
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </>
+                                    )}
+                                </Box>
+                            </CardActions>
+                        </Card>
+                    </Box>
+                ))}
+            </Container>
+        </ThemeProvider>
     );
 }
