@@ -8,4 +8,4 @@ whitenoise[brotli]
 gunicorn
 uvicorn
 python-dotenv
-rest_framework_simplejwt
+djangorestframework-simplejwt
