@@ -17,7 +17,7 @@ import { Fab, Menu, MenuItem } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Link, useNavigate } from 'react-router-dom';
 
-import {UserContext} from '../contexts/UserContext'
+import { UserContext } from '../contexts/UserContext';
 import { useContext, useState } from 'react';
 
 const drawerWidth = 240;
@@ -33,12 +33,11 @@ function Navbar(props) {
   const navigate = useNavigate();
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    
   };
 
   const handleClose = () => {
@@ -59,9 +58,9 @@ function Navbar(props) {
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
             <Link to={`/${item.toLowerCase()}`}>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
+              <ListItemButton sx={{ textAlign: 'center' }}>
+                <ListItemText primary={item} />
+              </ListItemButton>
             </Link>
           </ListItem>
         ))}
@@ -92,33 +91,35 @@ function Navbar(props) {
           >
             ReactWrite
           </Typography>
-          
+
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
-                <Link to={`/${item.toLowerCase()}`} key={item}>
-                    <Button key={item} sx={{ color: '#fff' }}>
-                        {item}
-                    </Button>
-                </Link>
+              <Link to={`/${item.toLowerCase()}`} key={item}>
+                <Button key={item} sx={{ color: '#fff' }}>
+                  {item}
+                </Button>
+              </Link>
             ))}
           </Box>
+
           <Link to={'/create'}>
-          <Fab 
-            sx={{ 
-              display: { xs: 'none', sm: 'block' }, 
-              mr: 2, 
-              transform: 'scale(0.6)', 
-              backgroundColor: '#fff', 
-              color: 'primary.main' 
-            }}
-            aria-label="add"
-          >
-            <AddIcon />
-          </Fab>
+            <Fab
+              sx={{
+                display: { xs: 'block', sm: 'block' },  // Change here
+                mr: 2,
+                transform: 'scale(0.6)',
+                backgroundColor: '#fff',
+                color: 'primary.main',
+              }}
+              aria-label="add"
+            >
+              <AddIcon />
+            </Fab>
           </Link>
-            {
-              localStorage.getItem('access_token') ? 
-                <>
+
+          <Box sx={{ ml: 'auto' }}>
+            {localStorage.getItem('access_token') ? (
+              <>
                 <Button
                   id="basic-button"
                   aria-controls={open ? 'basic-menu' : undefined}
@@ -126,7 +127,13 @@ function Navbar(props) {
                   aria-expanded={open ? 'true' : undefined}
                   onClick={handleClick}
                 >
-                  <img src={user.image} height={50} width={50} alt="" style={{ borderRadius: '50%', overflow: 'hidden' }} />
+                  <img
+                    src={user.image}
+                    height={50}
+                    width={50}
+                    alt=""
+                    style={{ borderRadius: '50%', overflow: 'hidden' }}
+                  />
                 </Button>
 
                 <Menu
@@ -137,24 +144,37 @@ function Navbar(props) {
                   MenuListProps={{
                     'aria-labelledby': 'basic-button',
                   }}
-                > 
-                  <MenuItem onClick={() => {
-                    handleClose();
-                    navigate(`/profile/${user.id}/`);
-                  }}>My Profile</MenuItem>
-                  <MenuItem onClick={() => {
-                    navigate('/my-account')
-                    handleClose();
-                  }}>My account</MenuItem>
-                  <MenuItem onClick={() => {
-                    navigate('/logout')
-                    handleClose();
-                  }}>Logout</MenuItem>
+                >
+                  <MenuItem
+                    onClick={() => {
+                      handleClose();
+                      navigate(`/profile/${user.id}/`);
+                    }}
+                  >
+                    My Profile
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      navigate('/my-account');
+                      handleClose();
+                    }}
+                  >
+                    My account
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      navigate('/logout');
+                      handleClose();
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
                 </Menu>
-            </>
-                : 
-              (<p>Login</p>)
-            }
+              </>
+            ) : (
+              <p>Login</p>
+            )}
+          </Box>
         </Toolbar>
       </AppBar>
       <nav>
