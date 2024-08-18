@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'https://reactwrite-p8gf.onrender.com'
+    baseURL: import.meta.env.VITE_API_URL
 })
 
 api.interceptors.request.use(
@@ -12,7 +12,6 @@ api.interceptors.request.use(
         }
         const csrfTokenMatch = document.cookie.match(/csrftoken=(\w+)/)
         if (csrfTokenMatch) {
-            console.log(csrfTokenMatch[1])
             const csrfToken = csrfTokenMatch[1]
             config.headers['X-CSRFToken'] = csrfToken
         }
