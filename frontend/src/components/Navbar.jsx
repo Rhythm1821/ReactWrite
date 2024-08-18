@@ -33,7 +33,7 @@ function Navbar(props) {
   const navigate = useNavigate();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return 
   }
 
   const handleClick = (event) => {

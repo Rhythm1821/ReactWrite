@@ -44,7 +44,7 @@ export default function EditPost() {
     api.put(`/posts/edit/${id}/`, { title, content, author })
       .then(() => {
         console.log("Post updated successfully");
-        // window.location.href = "/";
+        window.location.href = "/";
         setSnackBarOpen(true)
       })
       .catch((error) => {

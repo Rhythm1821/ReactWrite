@@ -27,7 +27,7 @@ export default function PostDetail() {
 
     const handleDelete = async (id) => {
         try {
-            await api.delete(`/posts/delete/${id}`);
+            await api.delete(`/posts/delete/${id}/`);
             console.log("Post deleted successfully");
             return navigate("/");
         } catch (error) {
