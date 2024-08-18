@@ -6,7 +6,7 @@ const Register = () => {
     const token = localStorage.getItem('access_token')
 
     if (token) {
-        console.log('You are already logged in');
+        alert('You are already logged in');
         return <Navigate to={'/'} />
     }
 

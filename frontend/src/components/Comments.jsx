@@ -11,7 +11,7 @@ export default function Comments({ postId, authorId }) {
             const res = await api.get(`/posts/comments/${postId}/`);
             setComments(res.data);
         } catch (error) {
-            console.log("Failed to fetch comments", error);
+            console.error("Failed to fetch comments", error);
         }
     };
 
@@ -24,11 +24,10 @@ export default function Comments({ postId, authorId }) {
         try {
             if (!content) return;
             await api.post(`/posts/comments/${postId}/`, { author: authorId, content: content });
-            console.log("Comment created successfully");
             fetchComments();
             setContent('');
         } catch (error) {
-            console.log("Failed to create comment", error);
+            console.error("Failed to create comment", error);
         }
     };
 

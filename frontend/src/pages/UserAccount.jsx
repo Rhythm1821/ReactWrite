@@ -11,7 +11,7 @@ export default function UserAccount() {
         if (user && user.id) {
             api.get(`users/${user.id}/`)
                 .then(res => setUserAccount(res.data))
-                .catch(err => console.log(err));
+                .catch(err => console.error(err));
         }
     }, [user]);
 

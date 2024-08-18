@@ -43,7 +43,6 @@ export default function EditPost() {
     const author = post.author.id
     api.put(`/posts/edit/${id}/`, { title, content, author })
       .then(() => {
-        console.log("Post updated successfully");
         window.location.href = "/";
         setSnackBarOpen(true)
       })

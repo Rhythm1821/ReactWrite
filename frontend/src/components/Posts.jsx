@@ -37,10 +37,9 @@ export default function Posts() {
     const handleDelete = async (id) => {
         try {
             await api.delete(`/posts/delete/${id}/`);
-            console.log("Post deleted successfully");
             await fetchPosts();
         } catch (error) {
-            console.log("Failed to delete post", error);
+            console.error("Failed to delete post", error);
         }
     };
 

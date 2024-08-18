@@ -17,7 +17,7 @@ const LikeButton = ({ postId, numOfLikes }) => {
         const response = await api.post(`/posts/toggle-like-button/${postId}/`);
         setToggleNumLikes(response.data);
     } catch (error) {
-        console.log('Failed to toggle like', error);
+        console.error('Failed to toggle like', error);
     }
   };
 
@@ -26,7 +26,7 @@ const LikeButton = ({ postId, numOfLikes }) => {
       const response = await api.get(`/posts/toggle-like-button/${postId}/`);
       setLiked(response.data)
     } catch (error) {
-      console.log('Failed to fetch user in post likes', error);
+      console.error('Failed to fetch user in post likes', error);
     }
   };
 

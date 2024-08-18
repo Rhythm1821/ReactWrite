@@ -29,7 +29,7 @@ const Profile = () => {
                 setUser(res.data);
                 setError(false);
             } catch (error) {
-                console.log("Failed to fetch user", error);
+                console.error("Failed to fetch user", error);
                 setError(true);
             }
         };

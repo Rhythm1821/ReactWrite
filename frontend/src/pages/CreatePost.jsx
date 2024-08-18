@@ -28,7 +28,6 @@ const CreatePost = () => {
     const author = user.id;
     try {
       await api.post('/posts/', { title, content, author });
-      console.log("Post created successfully");
       setTitle('');
       setContent('');
       return navigate('/');

@@ -15,7 +15,7 @@ export default function FollowButton({ status, name }) {
                 const res = await api.get(`/users/${status}/${name}/`);
                 setIsFollowing(res.data.isFollowing);
             } catch (error) {
-                console.log('Failed to fetch follow status', error);
+                console.error('Failed to fetch follow status', error);
             } finally {
                 setLoading(false);
             }
@@ -30,7 +30,7 @@ export default function FollowButton({ status, name }) {
             await api.post(`/users/${status}/${name}/`);
             setIsFollowing(!isFollowing);
         } catch (error) {
-            console.log('Failed to follow/unfollow', error);
+            console.error('Failed to follow/unfollow', error);
         } finally {
             setLoading(false);
         }

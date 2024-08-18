@@ -14,7 +14,7 @@ export const UserProvider = ({ children }) => {
                 const response = await api.get(`/users/myprofile/`);
                 setUser(response.data);
             } catch (error) {
-                console.log("Failed to fetch user", error);
+                console.error("Failed to fetch user", error);
             }
         }
         setLoading(false);

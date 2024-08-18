@@ -45,10 +45,9 @@ export default function ProfileUpdate() {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log("Profile updated successfully", response.data);
             navigate('/');
         } catch (error) {
-            console.log("Failed to update profile", error.response ? error.response.data : error);
+            console.error("Failed to update profile", error.response ? error.response.data : error);
         } finally {
             setUploading(false);
         }
