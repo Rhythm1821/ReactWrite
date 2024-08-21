@@ -21,7 +21,18 @@ const VisuallyHiddenInput = styled('input')({
 
 export default function ProfileUpdate() {
     const { user, loading } = useContext(UserContext);
-    if (loading) return <div>Loading...</div>;
+    if (loading) {
+        return (
+            <div className="absolute flex items-center justify-center inset-0 bg-opacity-50">
+              <div
+                className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"
+                role="status"
+              >
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          )
+    }
 
     const [bio, setBio] = useState(user.bio);
     const [image, setImage] = useState(user.image);

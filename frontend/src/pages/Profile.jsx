@@ -37,7 +37,18 @@ const Profile = () => {
         fetchUser();
     }, [id]);
 
-    if (loading) return <h2>Loading...</h2>;
+    if (loading) {
+        return (
+            <div className="absolute flex items-center justify-center inset-0 bg-opacity-50">
+              <div
+                className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"
+                role="status"
+              >
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          )
+    }
     if (error || !user.username) return <h2>No user found</h2>;
 
     const theme = createTheme();

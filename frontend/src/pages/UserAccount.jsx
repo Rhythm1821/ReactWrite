@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import api from "../api";
-import { Box, Typography, CircularProgress, Avatar, Container } from '@mui/material';
+import { Box, Typography, Avatar, Container } from '@mui/material';
 
 export default function UserAccount() {
     const [userAccount, setUserAccount] = useState({});
@@ -15,7 +15,18 @@ export default function UserAccount() {
         }
     }, [user]);
 
-    if (loading) return <CircularProgress />;
+    if (loading) {
+        return (
+            <div className="absolute flex items-center justify-center inset-0 bg-opacity-50">
+              <div
+                className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"
+                role="status"
+              >
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          )
+    }
 
     return (
         <Container>

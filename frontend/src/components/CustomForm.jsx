@@ -1,15 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import '../styles/Form.css'
-import { useState } from 'react'
 import api from '../api'
 import { useForm } from "react-hook-form";
 
 const CustomForm = ({ route, method }) => {
     const navigate = useNavigate()
 
-    const { register, handleSubmit, watch, setError, setValue, formState: { errors, isSubmitting }, reset } = useForm()
-
-    const name = method === 'login' ? "Login" : "Register"
+    const { register, handleSubmit, setError, formState: { errors, isSubmitting }, reset } = useForm()
 
     const onSubmit = async (data) => {
 
@@ -75,7 +72,6 @@ const CustomForm = ({ route, method }) => {
                                     maxLength: { value: 10, message: "max length is 10" }
                                 })} />
                         {errors.username && <div className='text-red-500'>{errors.username.message}</div>}
-                        {/* {errors.username && <div className='text-red-500'>{errors.username}</div>} */}
 
 
                         {/* Email */}
@@ -93,8 +89,7 @@ const CustomForm = ({ route, method }) => {
                                     })} />
                         }
                         {errors?.email && <div className='text-red-500'>{errors.email.message}</div>}
-                        {/* {errors?.email && <div className='text-red-500'>{errors.email}</div>} */}
-
+                        
                         {/* Password */}
                         <input
                             className='border border-gray-400 rounded-md w-1/2 p-3 my-2'
