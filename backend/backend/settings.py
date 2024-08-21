@@ -1,7 +1,11 @@
 import os
 from pathlib import Path
-
+from os import getenv
+from dotenv import load_dotenv
 from datetime import timedelta
+
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,6 +89,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Uncomment below If using SQLite
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -92,13 +97,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
-# Add these at the top of your settings.py
-from os import getenv
-from dotenv import load_dotenv
 
-load_dotenv()
-
-# Replace the DATABASES section of your settings.py with this
+# If using Neon PostgreSQL
 DATABASES = {
   'default': {
     'ENGINE': 'django.db.backends.postgresql',
@@ -143,10 +143,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 if not DEBUG:
-    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
-    # and renames the files with unique names for each version to support long-term caching
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
