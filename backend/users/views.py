@@ -14,6 +14,14 @@ class RegistrationView(generics.CreateAPIView):
     serializer_class=RegisterSerializer
     permission_classes=[AllowAny]
 
+    def create(self, validated_data):
+        # check if user or email already exists
+        if User.objects.filter(username=self.request.data['username']).exists() or User.objects.filter(email=self.request.data['email']).exists():
+            return Response({"detail": "Username or email already exists"}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.create_user(**validated_data)
+        return user
+
 class ProfileView(generics.RetrieveAPIView):
     serializer_class=ProfileSerializer
     permission_classes=[IsAuthenticated]
