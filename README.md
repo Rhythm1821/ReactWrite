@@ -23,16 +23,17 @@ ReactWrite is a powerful and user-friendly platform built with React and Django,
 
 - Node.js
 - Python 3.x
-- Neon account (or simply uncomment default sqlite database in settings.py)
+- Neon account (or simply uncomment default sqlite database and comment the Neon configuration in settings.py)
 
 ### Setup Instructions
 
-1. **Clone the repository**:
+1. **Local Setup**:
+    - Clone the repository:
 
-    ```bash
-    git clone https://github.com/Rhythm1821/ReactWrite.git
-    cd reactwrite
-    ```
+        ```bash
+        git clone https://github.com/Rhythm1821/ReactWrite.git
+        cd ReactWrite
+        ```
 
 2. **Frontend Setup**:
 
@@ -86,6 +87,8 @@ ReactWrite is a powerful and user-friendly platform built with React and Django,
         python3 manage.py migrate
         python3 manage.py runserver
         ```
+
+Go to [localhost:5173](http://localhost:5173) to view the frontend.
 
 ## Deployment
 
