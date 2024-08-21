@@ -2,7 +2,7 @@
 
 Live link - https://react-write-lemon.vercel.app
 
-ReactWrite is a powerful and user-friendly platform built with React and Django, allowing users to express themselves through posts, connect with others, and manage their profiles with ease. The project leverages modern web technologies and is deployed across Vercel and Render, with Supabase as the database.
+ReactWrite is a powerful and user-friendly platform built with React and Django, allowing users to express themselves through posts, connect with others, and manage their profiles with ease. The project leverages modern web technologies and is deployed across Vercel and Render, with Neon Postgres as the database.
 
 ## Features
 
