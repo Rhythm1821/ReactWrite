@@ -1,23 +1,14 @@
-import { useEffect, useState, useContext } from "react";
-import api from "../api";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import React, { useEffect, useState, useContext } from "react";
+import { Card, CardContent, Typography, Avatar, Box, Container } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { UserContext } from "../contexts/UserContext";
-import { Link, useNavigate } from "react-router-dom";
-import { ThemeProvider, Container, createTheme, IconButton } from "@mui/material";
-import LikeButton from "./LikeButton";
+import { useNavigate } from "react-router-dom";
+import api from "../api";
 
 export default function Posts() {
     const { user, loading } = useContext(UserContext);
     const [posts, setPosts] = useState([]);
     const navigate = useNavigate();
-    const theme = createTheme();
 
     const fetchPosts = async () => {
         try {
@@ -34,79 +25,66 @@ export default function Posts() {
         }
     }, [loading, user]);
 
-    const handleDelete = async (id) => {
-        try {
-            await api.delete(`/posts/delete/${id}/`);
-            await fetchPosts();
-        } catch (error) {
-            console.error("Failed to delete post", error);
-        }
-    };
-
-    const handleEdit = (post) => {
-        navigate(`post/edit/${post.id}`, { state: { post } });
-    };
-
     if (loading) {
         return (
             <div className="absolute flex items-center justify-center inset-0 bg-opacity-50">
-              <div
-                className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"
-                role="status"
-              >
-                <span className="sr-only">Loading...</span>
-              </div>
+                <div
+                    className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"
+                    role="status"
+                >
+                    <span className="sr-only">Loading...</span>
+                </div>
             </div>
-          )
+        )
     }
 
     if (!user) {
-        return <div>Error: User data not available</div>;
+        return <div className="text-center text-red-500 text-2xl">Error: User data not available</div>;
     }
 
     return (
-        <ThemeProvider theme={theme}>
-            <Container>
-                {posts.map((post) => (
-                    <Box sx={{ mb: 4 }} key={post.id}>
-                        <Card variant="outlined" sx={{ display: 'flex', flexDirection: 'column' }}>
-                            <CardContent>
-                                <Typography variant="h5" component="div" gutterBottom>
-                                    {post.title}
+        <Container>
+            {posts.map((post) => (
+                <Card 
+                    key={post.id} 
+                    sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        p: 2, 
+                        borderRadius: '16px', 
+                        boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)', 
+                        m: 3, 
+                        width: '60%', 
+                        cursor: 'pointer' 
+                    }}
+                    onClick={() => navigate(`post/${post.id}`, { state: { post } })}
+                >
+                    <Avatar
+                        src={post.author.image}
+                        alt={post.author.username}
+                        sx={{ width: 40, height: 40, mr: 2 }}
+                    />
+                    <Box sx={{ flex: 1 }}>
+                        <Typography variant="h6" fontWeight="bold" sx={{ mt: 1 }}>
+                            {post.title}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" sx={{ mt: 0.5, mb: 1.5 }}>
+                            {post.content.length > 200 ? `${post.content.substring(0, 200)}...` : post.content}
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+                            {
+                                <Typography variant="body2" color="textSecondary" sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
+                                    <FavoriteIcon sx={{ fontSize: 16, mr: 0.5 }} />
+                                    {post.likes.length > 0 && post.likes.length} 
                                 </Typography>
-                                <Typography variant="body1" color="textSecondary" gutterBottom>
-                                    {post.content}
-                                </Typography>
-                                <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-                                    <Typography variant="subtitle2" color="textSecondary" sx={{ mr: 2 }}>
-                                        <Link to={`/profile/${post.author.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                            - {post.author.username}
-                                        </Link>
-                                    </Typography>
-                                    <LikeButton postId={post.id} numOfLikes={post.likes.length} />
-                                </Box>
-                            </CardContent>
-                            <CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
-                                <Box>
-                                    <Button size="small" onClick={() => navigate(`post/${post.id}`, { state: { post } })}>
-                                        View
-                                    </Button>
-                                    {user.id === post.author.id && (
-                                        <>
-                                            <IconButton onClick={() => handleEdit(post)} size="small">
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton onClick={() => handleDelete(post.id)} size="small">
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </>
-                                    )}
-                                </Box>
-                            </CardActions>
-                        </Card>
+                            }
+                            <Typography variant="body2" color="textSecondary">
+                                {new Date(post.created_at).toLocaleDateString()}
+                            </Typography>
+                        </Box>
                     </Box>
-                ))}
-            </Container>
-        </ThemeProvider>
+                </Card>
+            ))}
+        </Container>
     );
 }
