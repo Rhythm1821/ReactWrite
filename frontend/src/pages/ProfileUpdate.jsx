@@ -35,7 +35,7 @@ export default function ProfileUpdate() {
     }
 
     const [bio, setBio] = useState(user.bio);
-    const [image, setImage] = useState(user.image);
+    const [image, setImage] = useState(user?.image);
     const [uploading, setUploading] = useState(false);
     const navigate = useNavigate();
 
@@ -67,8 +67,10 @@ export default function ProfileUpdate() {
     return (
         <>
             <Box display="flex" flexDirection="column" alignItems="center" mt={3}>
-                {user.image && (
+                {user?.image ? (
                     <Avatar src={user.image} alt={`${user.username}'s profile`} sx={{ width: 100, height: 100, mb: 2 }} />
+                ) : (
+                    <Avatar src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt={`${user.username}'s profile`} sx={{ width: 100, height: 100, mb: 2 }} />
                 )}
                 <Typography variant="h4">Update Profile</Typography>
             </Box>
