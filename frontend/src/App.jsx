@@ -28,37 +28,39 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        {isAuthenticated && 
-        <UserProvider>
-        <Navbar />
-        </UserProvider>
+        {isAuthenticated &&
+          <UserProvider>
+            <Navbar />
+          </UserProvider>
         }
-        <Routes>
-          <Route path='/' element={<ProtectedRoutes><Home /></ProtectedRoutes>} />
-          <Route path='/home' element={<Navigate to={'/'} />} />
-          <Route path='/create' element={<ProtectedRoutes>
-            <UserProvider>
-            <CreatePost />
-            </UserProvider>
-          </ProtectedRoutes>} />
-          <Route path='/login' element={<Login />} /> 
-          <Route path='/register' element={<Register />} /> 
-          <Route path='/logout' element={<Logout />} />
-          <Route path='/contact' element={<ProtectedRoutes><Contact /></ProtectedRoutes>} />
-          <Route path='/about' element={<ProtectedRoutes><UserProvider><About /></UserProvider></ProtectedRoutes>} />
-          <Route path='/profile/:id' element={<ProtectedRoutes><UserProvider><Profile /></UserProvider></ProtectedRoutes>} />
-          <Route path='/my-account' element={
-          <ProtectedRoutes>
-            <UserProvider>
-            <UserAccount />
-            </UserProvider>
-          </ProtectedRoutes>
-          } />
-          <Route path='/profile/edit' element={<ProtectedRoutes><UserProvider><ProfileUpdate /></UserProvider></ProtectedRoutes>} />
-          <Route path='/post/edit/:id' element={<ProtectedRoutes><EditPost /></ProtectedRoutes>} />
-          <Route path='/post/:id' element={<ProtectedRoutes><PostDetail /></ProtectedRoutes>} />
-        </Routes>
-    </BrowserRouter>
+        <main className='mt-24'>
+          <Routes>
+            <Route path='/' element={<ProtectedRoutes><Home /></ProtectedRoutes>} />
+            <Route path='/home' element={<Navigate to={'/'} />} />
+            <Route path='/create' element={<ProtectedRoutes>
+              <UserProvider>
+                <CreatePost />
+              </UserProvider>
+            </ProtectedRoutes>} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/logout' element={<Logout />} />
+            <Route path='/contact' element={<ProtectedRoutes><Contact /></ProtectedRoutes>} />
+            <Route path='/about' element={<ProtectedRoutes><UserProvider><About /></UserProvider></ProtectedRoutes>} />
+            <Route path='/profile/:id' element={<ProtectedRoutes><UserProvider><Profile /></UserProvider></ProtectedRoutes>} />
+            <Route path='/my-account' element={
+              <ProtectedRoutes>
+                <UserProvider>
+                  <UserAccount />
+                </UserProvider>
+              </ProtectedRoutes>
+            } />
+            <Route path='/profile/edit' element={<ProtectedRoutes><UserProvider><ProfileUpdate /></UserProvider></ProtectedRoutes>} />
+            <Route path='/post/edit/:id' element={<ProtectedRoutes><EditPost /></ProtectedRoutes>} />
+            <Route path='/post/:id' element={<ProtectedRoutes><PostDetail /></ProtectedRoutes>} />
+          </Routes>
+        </main>
+      </BrowserRouter>
     </>
   );
 }
