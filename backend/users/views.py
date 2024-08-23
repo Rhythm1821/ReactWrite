@@ -18,9 +18,9 @@ class RegistrationView(generics.CreateAPIView):
         # check if user or email already exists
         if User.objects.filter(username=self.request.data['username']).exists() or User.objects.filter(email=self.request.data['email']).exists():
             return Response({"detail": "Username or email already exists"}, status=status.HTTP_400_BAD_REQUEST)
-
-        user = User.objects.create_user(**validated_data)
-        return user
+        data=self.request.data
+        User.objects.create_user(username=data['username'],email=data['email'],password=data['password'])
+        return Response({"detail": "User created successfully"}, status=status.HTTP_201_CREATED)
 
 class ProfileView(generics.RetrieveAPIView):
     serializer_class=ProfileSerializer
