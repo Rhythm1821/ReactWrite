@@ -1,7 +1,30 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import api from "../api";
-import { Box, Typography, Avatar, Container } from '@mui/material';
+import { 
+    Box, 
+    Typography, 
+    Avatar, 
+    Container, 
+    Paper, 
+    Grid, 
+    Skeleton 
+} from '@mui/material';
+import {  ThemeProvider } from '@mui/material/styles'; // Updated import
+import createTheme from '@mui/material/styles/createTheme';
+import EmailIcon from '@mui/icons-material/Email';
+import PersonIcon from '@mui/icons-material/Person';
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#1976d2',
+        },
+        background: {
+            default: '#f5f5f5',
+        },
+    },
+});
 
 export default function UserAccount() {
     const [userAccount, setUserAccount] = useState({});
@@ -17,30 +40,57 @@ export default function UserAccount() {
 
     if (loading) {
         return (
-            <div className="absolute flex items-center justify-center inset-0 bg-opacity-50">
-              <div
-                className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"
-                role="status"
-              >
-                <span className="sr-only">Loading...</span>
-              </div>
-            </div>
-          )
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+                <Skeleton variant="circular" width={40} height={40} />
+            </Box>
+        );
     }
 
     return (
-        <Container>
-            <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
-                {userAccount.image && (
-                    <Avatar src={userAccount.image} alt={`${userAccount.username}'s profile`} sx={{ width: 100, height: 100, mb: 2 }} />
-                )}
-                <Typography variant="h4" gutterBottom>User Account</Typography>
-                <Typography variant="h5" gutterBottom>Hello {user?.username}</Typography>
-                <Box mt={2} width="100%" maxWidth="500px">
-                    <Typography variant="h6" gutterBottom>Username: {userAccount.username}</Typography>
-                    <Typography variant="h6" gutterBottom>Email: {userAccount.email}</Typography>
-                </Box>
+        <ThemeProvider theme={theme}>
+            <Box bgcolor="background.default" minHeight="100vh" py={8}>
+                <Container maxWidth="md">
+                    <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
+                        <Grid container spacing={4}>
+                            <Grid item xs={12} md={4} display="flex" flexDirection="column" alignItems="center">
+                                {user.image ? (
+                                    <Avatar 
+                                        src={user.image} 
+                                        alt={`${userAccount.username}'s profile`} 
+                                        sx={{ width: 150, height: 150, mb: 2 }} 
+                                    />
+                                ) : (
+                                    <Avatar sx={{ width: 150, height: 150, mb: 2, bgcolor: 'primary.main' }}>
+                                        {user.username?.charAt(0).toUpperCase()}
+                                    </Avatar>
+                                )}
+                                <Typography variant="h5" gutterBottom fontWeight="bold">
+                                    {user?.username}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} md={8}>
+                                <Typography variant="h4" fontWeight="bold">
+                                    Your Account
+                                </Typography>
+                                <Box mt={4}>
+                                    <Box display="flex" alignItems="center" mb={2}>
+                                        <PersonIcon sx={{ mr: 2, color: 'primary.main' }} />
+                                        <Typography variant="h6">
+                                            Username: <strong>{userAccount.username}</strong>
+                                        </Typography>
+                                    </Box>
+                                    <Box display="flex" alignItems="center">
+                                        <EmailIcon sx={{ mr: 2, color: 'primary.main' }} />
+                                        <Typography variant="h6">
+                                            Email: <strong>{userAccount.email}</strong>
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Container>
             </Box>
-        </Container>
+        </ThemeProvider>
     );
 }
