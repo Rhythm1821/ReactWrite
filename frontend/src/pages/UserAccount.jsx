@@ -54,8 +54,8 @@ export default function UserAccount() {
                         <Grid container spacing={4}>
                             <Grid item xs={12} md={4} display="flex" flexDirection="column" alignItems="center">
                                 {<Avatar 
-                                        src={user.image || "https://cdn-icons-png.flaticon.com/512/149/149071.png"} 
-                                        alt={`${userAccount.username}'s profile`} 
+                                        src={user?.image || "https://cdn-icons-png.flaticon.com/512/149/149071.png"} 
+                                        alt={"https://cdn-icons-png.flaticon.com/512/149/149071.png"} 
                                         sx={{ width: 150, height: 150, mb: 2 }} 
                                     />}
                                 <Typography variant="h5" gutterBottom fontWeight="bold">

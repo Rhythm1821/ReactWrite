@@ -37,7 +37,7 @@ const Profile = () => {
         fetchUser();
     }, [id]);
 
-    if (loading) {
+    if (loading || error || !user.username) {
         return (
             <div className="absolute flex items-center justify-center inset-0 bg-opacity-50">
               <div
@@ -49,7 +49,7 @@ const Profile = () => {
             </div>
           )
     }
-    if (error || !user.username) return <h2>No user found</h2>;
+    // if (error || !user.username) return <h2>No user found</h2>;
 
     const theme = createTheme();
 
@@ -60,8 +60,8 @@ const Profile = () => {
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         {
                             <Avatar
-                            alt={user.username}
-                            src={user?.image || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+                            alt={"https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+                            src={user?.image}
                             sx={{ width: 100, height: 100, mr: 2 }}
                         />
                         }

@@ -70,7 +70,7 @@ export default function PostDetail() {
                         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
                             <Avatar
                                 src={post.author?.image || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
-                                alt={post.author.username}
+                                alt={"https://cdn-icons-png.flaticon.com/512/149/149071.png"}
                                 sx={{ width: 56, height: 56, mr: 2 }}
                             />
                             <Typography variant="h6" color="text.secondary">
