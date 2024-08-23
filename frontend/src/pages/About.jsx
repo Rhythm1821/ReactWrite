@@ -1,12 +1,70 @@
+import React from 'react';
+import { 
+    Container, 
+    Typography, 
+    Box, 
+    Paper, 
+    createTheme, 
+    ThemeProvider 
+} from '@mui/material';
+
+const theme = createTheme({
+    typography: {
+        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    },
+});
+
 export default function About() {
     return (
-        <div className="flex flex-col items-center justify-center h-screen px-6">
-            <h1 className="text-4xl font-bold mb-6 text-gray-900">About Us</h1>
-            <p className="text-lg text-center text-gray-700 max-w-3xl leading-relaxed">
-                ReactWrite is a powerful and user-friendly platform built with React and Django, 
-                allowing users to express themselves through posts, connect with others, and manage their profiles with ease. 
-                The project leverages modern web technologies and is deployed across Vercel and Render, with Supabase as the database.
-            </p>
-        </div>
-    )
+        <ThemeProvider theme={theme}>
+            <Container maxWidth="md">
+                <Box
+                    sx={{
+                        minHeight: '100vh',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        py: 8,
+                    }}
+                >
+                    <Paper
+                        elevation={3}
+                        sx={{
+                            p: 6,
+                            borderRadius: '16px',
+                            textAlign: 'center',
+                            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                            backdropFilter: 'blur(10px)',
+                        }}
+                    >
+                        <Typography 
+                            variant="h2" 
+                            component="h1" 
+                            gutterBottom
+                            sx={{ 
+                                fontWeight: 700, 
+                                color: 'primary.main',
+                                mb: 4,
+                            }}
+                        >
+                            About Us
+                        </Typography>
+                        <Typography 
+                            variant="body1" 
+                            sx={{ 
+                                fontSize: '1.2rem', 
+                                lineHeight: 1.8,
+                                color: 'text.secondary',
+                            }}
+                        >
+                            ReactWrite is a powerful and user-friendly platform built with React and Django, 
+                            allowing users to express themselves through posts, connect with others, and manage their profiles with ease. 
+                            The project leverages modern web technologies and is deployed across Vercel and Render, with Neon Postgres as the database.
+                        </Typography>
+                    </Paper>
+                </Box>
+            </Container>
+        </ThemeProvider>
+    );
 }

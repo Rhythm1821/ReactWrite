@@ -3,17 +3,23 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import {
     Box,
-    Button,
     Card,
+    CardActions,
     CardContent,
     Container,
-    ThemeProvider,
+    IconButton,
     Typography,
     createTheme,
+    Avatar,
+    ThemeProvider,
+    Divider,
+    Button,
 } from "@mui/material";
 import api from "../api";
 import LikeButton from "../components/LikeButton";
 import Comments from "../components/Comments";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function PostDetail() {
     const { id } = useParams();
@@ -36,60 +42,67 @@ export default function PostDetail() {
 
     if (loading) {
         return (
-            <div className="absolute flex items-center justify-center inset-0 bg-opacity-50">
-              <div
-                className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"
-                role="status"
-              >
-                <span className="sr-only">Loading...</span>
-              </div>
-            </div>
-          )
+            <Box className="absolute flex items-center justify-center inset-0 bg-opacity-50">
+                <Box
+                    className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"
+                    role="status"
+                >
+                    <Typography className="sr-only">Loading...</Typography>
+                </Box>
+            </Box>
+        );
     }
+
     return (
         <ThemeProvider theme={theme}>
-            <Container>
-                <Card sx={{ mt: 4 }}>
+            <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
+                <Card
+                    sx={{
+                        p: 4,
+                        borderRadius: '16px',
+                        boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.08)',
+                        transition: 'all 0.3s ease-in-out',
+                        '&:hover': {
+                            boxShadow: '0px 6px 25px rgba(0, 0, 0, 0.12)',
+                        }
+                    }}
+                >
                     <CardContent>
-                        <Typography variant="h4" component="h1" gutterBottom>
-                            {post.title}
-                        </Typography>
-                        <Typography variant="body1" paragraph>
-                            {post.content}
-                        </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            Author: {post.author.username}
-                        </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            Created at: {new Date(post.created_at).toLocaleString()}
-                        </Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-                            <LikeButton postId={post.id} numOfLikes={post.likes.length} />
-                            <Typography variant="body2" color="textSecondary" sx={{ ml: 1 }}>
-                                {post.likes.length} likes
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                            <Avatar
+                                src={post.author.image}
+                                alt={post.author.username}
+                                sx={{ width: 56, height: 56, mr: 2 }}
+                            />
+                            <Typography variant="h6" color="text.secondary">
+                                {post.author.username}
                             </Typography>
                         </Box>
-                        {user && user.id === post.author.id && (
-                            <Box sx={{ mt: 2 }}>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => navigate(`/post/edit/${post.id}`, { state: { post } })}
-                                    size="small"
-                                    sx={{ mr: 2 }}
-                                >
-                                    Edit
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => handleDelete(post.id)}
-                                    size="small"
-                                >
-                                    Delete
-                                </Button>
-                            </Box>
-                        )}
+                        <Divider sx={{ mb: 3 }} />
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+                            <Typography variant="h4" fontWeight="bold">
+                                {post.title}
+                            </Typography>
+                            {user.id === post.author.id && (
+                                <CardActions>
+                                    <IconButton onClick={() => navigate(`/post/edit/${post.id}`, { state: { post } })} size="large">
+                                        <EditIcon />
+                                    </IconButton>
+                                    <IconButton onClick={() => handleDelete(post.id)} size="large">
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </CardActions>
+                            )}
+                        </Box>
+                        <Typography variant="body1" paragraph sx={{ mb: 4, lineHeight: 1.8 }}>
+                            {post.content}
+                        </Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3 }}>
+                            <LikeButton postId={post.id} numOfLikes={post.likes.length} />
+                            <Typography variant="subtitle1" color="text.secondary">
+                                {new Date(post.created_at).toLocaleDateString()}
+                            </Typography>
+                        </Box>
                     </CardContent>
                 </Card>
                 <Box sx={{ mt: 4 }}>

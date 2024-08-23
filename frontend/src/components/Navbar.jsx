@@ -33,7 +33,7 @@ function Navbar(props) {
   const navigate = useNavigate();
 
   if (loading) {
-    return 
+    return null; // Add a loading spinner or some placeholder here if needed
   }
 
   const handleClick = (event) => {
@@ -73,7 +73,15 @@ function Navbar(props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="sticky" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          width: '100%',
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          top: 0,
+          left: 0,
+        }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -87,7 +95,7 @@ function Navbar(props) {
           <Typography
             variant="h6"
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' }, mr: 2 }}
+            sx={{ display: { sm: 'block' }, mr: 2 }}
           >
             ReactWrite
           </Typography>
@@ -105,7 +113,7 @@ function Navbar(props) {
           <Link to={'/create'}>
             <Fab
               sx={{
-                display: { xs: 'block', sm: 'block' },  // Change here
+                display: { xs: 'block', sm: 'block' },
                 mr: 2,
                 transform: 'scale(0.6)',
                 backgroundColor: '#fff',
