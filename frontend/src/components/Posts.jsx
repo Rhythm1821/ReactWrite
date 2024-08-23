@@ -64,7 +64,7 @@ export default function Posts() {
                 >
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         <Avatar
-                            src={post.author?.image ? post.author.image : "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+                            src={post.author?.image || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
                             alt={post.author.username}
                             sx={{ width: 48, height: 48, mr: 2 }}
                         />

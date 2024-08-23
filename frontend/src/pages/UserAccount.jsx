@@ -53,19 +53,11 @@ export default function UserAccount() {
                     <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
                         <Grid container spacing={4}>
                             <Grid item xs={12} md={4} display="flex" flexDirection="column" alignItems="center">
-                                {user?.image ? (
-                                    <Avatar 
-                                        src={user.image} 
+                                {<Avatar 
+                                        src={user.image || "https://cdn-icons-png.flaticon.com/512/149/149071.png"} 
                                         alt={`${userAccount.username}'s profile`} 
                                         sx={{ width: 150, height: 150, mb: 2 }} 
-                                    />
-                                ) : (
-                                    <Avatar 
-                                        src="https://cdn-icons-png.flaticon.com/512/149/149071.png" 
-                                        alt={`${userAccount.username}'s profile`} 
-                                        sx={{ width: 150, height: 150, mb: 2 }} 
-                                    />
-                                )}
+                                    />}
                                 <Typography variant="h5" gutterBottom fontWeight="bold">
                                     {user?.username}
                                 </Typography>

@@ -59,19 +59,11 @@ const Profile = () => {
                 <Card sx={{ mt: 4, p: 2 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         {
-                            user.image ? (
-                                <Avatar
+                            <Avatar
                             alt={user.username}
-                            src={user?.image}
+                            src={user?.image || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
                             sx={{ width: 100, height: 100, mr: 2 }}
                         />
-                            ) : (
-                                <Avatar
-                            alt={user.username}
-                            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                            sx={{ width: 100, height: 100, mr: 2 }}
-                        />
-                            )
                         }
                         <Box sx={{ flexGrow: 1 }}>
                             <Typography variant="h4" component="div">

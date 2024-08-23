@@ -24,14 +24,14 @@ export default function ProfileUpdate() {
     if (loading) {
         return (
             <div className="absolute flex items-center justify-center inset-0 bg-opacity-50">
-              <div
-                className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"
-                role="status"
-              >
-                <span className="sr-only">Loading...</span>
-              </div>
+                <div
+                    className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"
+                    role="status"
+                >
+                    <span className="sr-only">Loading...</span>
+                </div>
             </div>
-          )
+        )
     }
 
     const [bio, setBio] = useState(user.bio);
@@ -51,7 +51,7 @@ export default function ProfileUpdate() {
 
         try {
             setUploading(true);
-            const response = await api.put(`/users/profile/${user.id}/update/`, formData, {
+            await api.put(`/users/profile/${user.id}/update/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -67,11 +67,11 @@ export default function ProfileUpdate() {
     return (
         <>
             <Box display="flex" flexDirection="column" alignItems="center" mt={3}>
-                {user?.image ? (
-                    <Avatar src={user.image} alt={`${user.username}'s profile`} sx={{ width: 100, height: 100, mb: 2 }} />
-                ) : (
-                    <Avatar src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt={`${user.username}'s profile`} sx={{ width: 100, height: 100, mb: 2 }} />
-                )}
+                {
+                    <Avatar src={user?.image || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+                        alt={`${user.username}'s profile`}
+                        sx={{ width: 100, height: 100, mb: 2 }} />
+                }
                 <Typography variant="h4">Update Profile</Typography>
             </Box>
             <Box component="form" onSubmit={handleSubmit} mt={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
