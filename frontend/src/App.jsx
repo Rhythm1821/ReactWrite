@@ -15,14 +15,20 @@ import Contact from './pages/Contact';
 import About from './pages/About';
 import { useAuth } from './contexts/AuthContext';
 import UserAccount from './pages/UserAccount';
+import React, { useState, useEffect } from 'react';
+
 
 function App() {
   const { isAuthenticated } = useAuth();
 
   const Logout = () => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    return <Navigate to={'/login'} />;
+    useEffect(() => {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      window.location.replace('/login');
+    }, []);
+  
+    return null;
   };
 
   return (
@@ -33,7 +39,7 @@ function App() {
             <Navbar />
           </UserProvider>
         }
-        <main className='mt-24'>
+        <main className={isAuthenticated ? 'mt-24' : ''}>
           <Routes>
             <Route path='/' element={<ProtectedRoutes><Home /></ProtectedRoutes>} />
             <Route path='/home' element={<Navigate to={'/'} />} />
