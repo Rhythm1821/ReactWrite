@@ -68,7 +68,8 @@ export default function ProfileUpdate() {
         <>
             <Box display="flex" flexDirection="column" alignItems="center" mt={3}>
                 {
-                    <Avatar src={user?.image}
+                    <Avatar 
+                    src={user?.image ? `${import.meta.env.VITE_IMAGE_BASE_URL}${user.image}` : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
                         alt={"https://cdn-icons-png.flaticon.com/512/149/149071.png"}
                         sx={{ width: 100, height: 100, mb: 2 }} />
                 }

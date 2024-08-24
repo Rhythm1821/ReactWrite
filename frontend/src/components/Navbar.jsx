@@ -136,7 +136,7 @@ function Navbar(props) {
                   onClick={handleClick}
                 >
                   <img
-                    src={user?.image?.trim() ? user.image : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
+                    src={user?.image ? `${import.meta.env.VITE_IMAGE_BASE_URL}${user.image}` : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
                     height={50}
                     width={50}
                     alt=""

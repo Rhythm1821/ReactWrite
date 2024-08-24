@@ -61,7 +61,7 @@ const Profile = () => {
                         {
                             <Avatar
                             alt={"https://cdn-icons-png.flaticon.com/512/149/149071.png"}
-                            src={user?.image}
+                            src={user?.image ? `${import.meta.env.VITE_IMAGE_BASE_URL}${user.image}` : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
                             sx={{ width: 100, height: 100, mr: 2 }}
                         />
                         }
