@@ -33,7 +33,7 @@ function Navbar(props) {
   const navigate = useNavigate();
 
   if (loading) {
-    return null; // Add a loading spinner or some placeholder here if needed
+    return null;
   }
 
   const handleClick = (event) => {
@@ -97,7 +97,7 @@ function Navbar(props) {
             component="div"
             sx={{ display: { sm: 'block' }, mr: 2 }}
           >
-            ReactWrite
+            <a href="/">ReactWrite</a>
           </Typography>
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
