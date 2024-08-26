@@ -11,7 +11,7 @@ const Following = ({ following, setOpenFollowing }) => {
             await api.post(`/users/following/${username}/`);
             setFollowingStatus(prevState => ({
                 ...prevState,
-                [username]: !prevState[username] // Toggle the status
+                [username]: !prevState[username]
             }));
         } catch (error) {
             console.error("Failed to follow/unfollow", error);
