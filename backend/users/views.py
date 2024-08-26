@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import generics
 
 from .models import Profile
@@ -98,7 +97,7 @@ class FollowingAPIView(APIView):
     def get(self, request, username):
         user = request.user
         profile = Profile.objects.get(user__username=username)
-        if user.profile.follows.filter(pk=profile.pk).exists():
-            return Response({'isFollowing':True})
-        else:
-            return Response({'isFollowing':False})
+        following = user.profile.follows.all()
+        usernames = [follower.user.username for follower in following]
+        print("usernames",usernames)
+        return Response(usernames)
