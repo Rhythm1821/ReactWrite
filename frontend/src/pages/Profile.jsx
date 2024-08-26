@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Card, CardContent, CardMedia, Typography, Box, Avatar, Container, IconButton, Divider, createTheme, ThemeProvider } from '@mui/material';
+import { Card, Typography, Box, Avatar, Container, IconButton, createTheme, ThemeProvider } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
@@ -88,15 +88,13 @@ const Profile = () => {
                                     <Typography variant="body1" color="textSecondary" sx={{ mx: 'auto' }}>
                                         {postCount} Posts
                                     </Typography>
-                                    <Divider orientation="vertical" flexItem sx={{ mx: 1, display: { lg: 'block', xs: 'none', sm: 'none', md: 'none' } }} />
                                     <Typography variant="body1" color="textSecondary" sx={{ mx: 2 }}>
                                         <button onClick={() => setOpenFollowers(!openFollowers)}>{user.followers.length} Followers</button>
-                                        {openFollowers && <Followers followers={user.followers} />}
+                                        {openFollowers && <Followers followers={user.followers} setOpenFollowers={setOpenFollowers} />}
                                     </Typography>
-                                    <Divider orientation="vertical" flexItem sx={{ mx: 1, display: { lg: 'block', xs: 'none', sm: 'none', md: 'none' } }} />
                                     <Typography variant="body1" color="textSecondary" sx={{ mx: 2 }}>
                                         <button onClick={() => setOpenFollowing(!openFollowing)}>{user.follows.length} Following</button>
-                                        {openFollowing && <Following following={user.follows} />}
+                                        {openFollowing && <Following following={user.follows} setOpenFollowing={setOpenFollowing} />}
                                     </Typography>
                                 </Box>
                                 <Typography variant="body1" color="textSecondary" sx={{ textAlign: { xs: 'center', lg: 'center' }, my: 2 }}>

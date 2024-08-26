@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Followers = ({followers}) => {
+const Followers = ({followers, setOpenFollowers}) => {
 
   const removeFollower = (id) => {
     followers.filter((follower) => follower.id !== id)
@@ -11,7 +11,7 @@ const Followers = ({followers}) => {
       <div className="bg-gray-800 text-white rounded-lg w-80 sm:w-96 p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Followers</h2>
-          <button className="text-gray-400 hover:text-gray-300">
+          <button onClick={() => setOpenFollowers(false)} className="text-gray-400 hover:text-gray-300">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
