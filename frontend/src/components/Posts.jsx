@@ -57,6 +57,7 @@ const PostCard = ({ post, onNavigate }) => (
 export default function Posts({ author = '', onPostCountChange }) {
     const { user, loading } = useContext(UserContext);
     const [posts, setPosts] = useState([]);
+    const [postsLoading, setPostsLoading] = useState(true);
     const navigate = useNavigate();
 
     const fetchPosts = useCallback(async () => {
@@ -66,6 +67,8 @@ export default function Posts({ author = '', onPostCountChange }) {
             onPostCountChange(response.data.length);
         } catch (error) {
             console.error("Failed to fetch posts", error);
+        } finally {
+            setPostsLoading(false);
         }
     }, [author, onPostCountChange]);
 
@@ -75,7 +78,7 @@ export default function Posts({ author = '', onPostCountChange }) {
         }
     }, [loading, user, fetchPosts]);
 
-    if (loading) {
+    if (loading || postsLoading) {
         return (
             <div className="absolute flex items-center justify-center inset-0 bg-opacity-50">
                 <div
@@ -90,6 +93,10 @@ export default function Posts({ author = '', onPostCountChange }) {
 
     if (!user) {
         return <div className="text-center text-red-500 text-2xl">Error: User data not available</div>;
+    }
+
+    if (posts.length === 0) {
+        return <div className="text-center text-gray-500 text-2xl">No posts available</div>;
     }
 
     return (
