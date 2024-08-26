@@ -92,10 +92,6 @@ export default function Posts({ author = '', onPostCountChange }) {
         return <div className="text-center text-red-500 text-2xl">Error: User data not available</div>;
     }
 
-    if (posts.length === 0) {
-        return <div className="text-center text-gray-500 text-2xl">No posts available</div>;
-    }
-
     return (
         <Container>
             {posts.map((post) => (
