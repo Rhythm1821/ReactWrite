@@ -85,7 +85,7 @@ const Following = ({ following, setOpenFollowing }) => {
                                 }}
                                 className="text-red-500 hover:text-red-400 bg-gray-700 hover:bg-gray-600 px-4 py-1 rounded-md"
                             >
-                                {followingStatus[follow.username] ? "Following" : "Follow"}
+                                {!followingStatus[follow.username] ? "Follow" : "Following"}
                             </button>
                         </div>
                     ))}
