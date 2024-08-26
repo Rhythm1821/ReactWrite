@@ -1,19 +1,20 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Card, CardContent, Typography, Avatar, Box, Container, Divider, Button } from '@mui/material';
+import { Card, Typography, Avatar, Box, Container, Divider, Button } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 
-export default function Posts() {
+export default function Posts({ author='', onPostCountChange }) {
     const { user, loading } = useContext(UserContext);
     const [posts, setPosts] = useState([]);
     const navigate = useNavigate();
 
     const fetchPosts = async () => {
         try {
-            const response = await api.get('/posts/?author=');
+            const response = await api.get(`/posts/?author=${author}`);
             setPosts(response.data);
+            onPostCountChange(response.data.length);
         } catch (error) {
             console.error("Failed to fetch posts", error);
         }
@@ -55,7 +56,8 @@ export default function Posts() {
                         borderRadius: '16px',
                         boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.08)',
                         m: 3,
-                        width: '60%',
+                        width: '95%',
+                        mx: 'auto',
                         transition: 'all 0.3s ease-in-out',
                         '&:hover': {
                             boxShadow: '0px 6px 25px rgba(0, 0, 0, 0.12)',
