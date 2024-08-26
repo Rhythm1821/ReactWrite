@@ -6,10 +6,12 @@ const Home = () => {
 
     return (
         <>
-         
-         <UserProvider>
-         <Posts />
-         </UserProvider>
+
+            <UserProvider>
+                <div className="md:w-[60%] ">
+                    <Posts />
+                </div>
+            </UserProvider>
 
         </>
     )
