@@ -1,10 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import api from "../api";
+import { UserContext } from "../contexts/UserContext";
 
-const Followers = ({followers, setOpenFollowers}) => {
+const Followers = ({ followers, setOpenFollowers }) => {
+  const [followingStatus, setFollowingStatus] = useState({});
+  const { user, loading } = useContext(UserContext);
 
-  const removeFollower = (id) => {
-    followers.filter((follower) => follower.id !== id)
+  const toggleFollowing = async (id, username) => {
+    try {
+      await api.post(`/users/following/${username}/`);
+      setFollowingStatus(prevState => ({
+        ...prevState,
+        [username]: !prevState[username] // Toggle the status
+      }));
+    } catch (error) {
+      console.error("Failed to follow/unfollow", error);
+    }
   };
+
+  useEffect(() => {
+    const fetchFollowingStatus = async () => {
+      if (!loading && user) {
+        try {
+          const res = await api.get(`/users/following/${user.username}/`);
+          const status = {};
+          res.data.forEach(username => {
+            status[username] = true;
+          });
+          setFollowingStatus(status);
+        } catch (error) {
+          console.error("Failed to fetch following status", error);
+        }
+      }
+    };
+    fetchFollowingStatus();
+  }, [loading, user]);
+  console.log("followingStatus", followingStatus);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -45,14 +76,13 @@ const Followers = ({followers, setOpenFollowers}) => {
                 </div>
                 <div>
                   <p className="font-medium">{follower.username}</p>
-                  {/* <p className="text-sm text-gray-400">{follower.name}</p> */}
                 </div>
               </div>
               <button
-                onClick={() => removeFollower(follower.id)}
-                className="text-red-500 hover:text-red-400"
+                onClick={() => toggleFollowing(follower.id, follower.username)}
+                className="text-red-500 hover:text-red-400 bg-gray-700 hover:bg-gray-600 px-4 py-1 rounded-md"
               >
-                Remove
+                {followingStatus[follower.username] ? "Following" : "Follow"}
               </button>
             </div>
           ))}

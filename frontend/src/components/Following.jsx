@@ -1,8 +1,41 @@
+import { useContext, useEffect, useState } from "react";
+import api from "../api";
+import { UserContext } from "../contexts/UserContext";
 
 const Following = ({ following, setOpenFollowing }) => {
-    const toggleFollowing = (id) => {
-        following.filter((follow) => follow.id !== id)
+    const [followingStatus, setFollowingStatus] = useState({});
+    const { user, loading } = useContext(UserContext);
+
+    const toggleFollowing = async (id, username) => {
+        try {
+            await api.post(`/users/following/${username}/`);
+            setFollowingStatus(prevState => ({
+                ...prevState,
+                [username]: !prevState[username] // Toggle the status
+            }));
+        } catch (error) {
+            console.error("Failed to follow/unfollow", error);
+        }
     };
+
+    useEffect(() => {
+        const fetchFollowingStatus = async () => {
+            if (!loading && user) {
+                try {
+                    const res = await api.get(`/users/following/${user.username}/`);
+                    const status = {};
+                    res.data.forEach(username => {
+                        status[username] = true;
+                    });
+                    setFollowingStatus(status);
+                } catch (error) {
+                    console.error("Failed to fetch following status", error);
+                }
+            }
+        };
+        fetchFollowingStatus();
+    }, [loading, user]);
+    console.log("followingStatus", followingStatus);
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -48,12 +81,11 @@ const Following = ({ following, setOpenFollowing }) => {
                             <button
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    toggleFollowing(follow.id);
-                                    e.target.textContent = e.target.textContent == "Unfollow" ? "Follow" : "Unfollow";
+                                    toggleFollowing(follow.id, follow.username);
                                 }}
                                 className="text-red-500 hover:text-red-400 bg-gray-700 hover:bg-gray-600 px-4 py-1 rounded-md"
                             >
-                                Unfollow
+                                {followingStatus[follow.username] ? "Following" : "Follow"}
                             </button>
                         </div>
                     ))}
