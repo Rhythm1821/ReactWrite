@@ -64,7 +64,7 @@ export default function Posts({ author='', onPostCountChange }) {
                         }
                     }}
                 >
-                    <Box onClick={() => navigate(`profile/${post.author.id}/`)} sx={{ display: 'flex', alignItems: 'center', mb: 2, cursor: 'pointer' }}>
+                    <Box onClick={() => navigate(`/profile/${post.author.id}/`)} sx={{ display: 'flex', alignItems: 'center', mb: 2, cursor: 'pointer' }}>
                         <Avatar
                             src={post.author?.image ? `${import.meta.env.VITE_IMAGE_BASE_URL}${post.author.image}` : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
                             alt={"https://cdn-icons-png.flaticon.com/512/149/149071.png"}
@@ -76,7 +76,7 @@ export default function Posts({ author='', onPostCountChange }) {
                     </Box>
                     <Divider sx={{ mb: 2 }} />
                     <Box
-                        onClick={() => navigate(`post/${post.id}`, { state: { post } })}
+                        onClick={() => navigate(`/post/${post.id}`, { state: { post } })}
                         sx={{ flex: 1, cursor: 'pointer' }}
                     >
                         <Typography variant="h5" fontWeight="bold" sx={{ mb: 1.5 }}>
