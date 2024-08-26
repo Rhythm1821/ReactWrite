@@ -88,14 +88,14 @@ const Profile = () => {
                                     <Typography variant="body1" color="textSecondary" sx={{ mx: 'auto' }}>
                                         {postCount} Posts
                                     </Typography>
-                                    <Typography variant="body1" color="textSecondary" sx={{ mx: 2 }}>
+                                    <div className='mx-2 text-[#00000099]'>
                                         <button onClick={() => setOpenFollowers(!openFollowers)}>{user.followers.length} Followers</button>
                                         {openFollowers && <Followers followers={user.followers} setOpenFollowers={setOpenFollowers} />}
-                                    </Typography>
-                                    <Typography variant="body1" color="textSecondary" sx={{ mx: 2 }}>
+                                    </div>
+                                    <div className='mx-2 text-[#00000099]'>
                                         <button onClick={() => setOpenFollowing(!openFollowing)}>{user.follows.length} Following</button>
                                         {openFollowing && <Following following={user.follows} setOpenFollowing={setOpenFollowing} />}
-                                    </Typography>
+                                    </div>
                                 </Box>
                                 <Typography variant="body1" color="textSecondary" sx={{ textAlign: { xs: 'center', lg: 'center' }, my: 2 }}>
                                     {user.bio}
