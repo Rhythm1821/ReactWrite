@@ -4,7 +4,6 @@ from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
-
 from .models import Profile
 from .serializers import RegisterSerializer,ProfileSerializer, UserSerializer
 
@@ -43,6 +42,12 @@ class ProfileUpdateView(generics.UpdateAPIView):
     permission_classes=[IsAuthenticated]
     queryset=Profile.objects.all()
 
+    def update(self, request, *args, **kwargs):
+        user=self.request.user
+        user.username=request.data['username']
+        user.save()
+        return super().update(request, *args, **kwargs)
+
 
 class UserViewSet(generics.RetrieveAPIView):
     queryset=User.objects.all()
@@ -52,15 +57,6 @@ class UserViewSet(generics.RetrieveAPIView):
     def get_object(self):
         user=User.objects.get(id=self.kwargs['pk'])
         return user
-
-
-from django.shortcuts import get_object_or_404
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from django.db import transaction
-from .models import Profile
 
 class FollowersAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -99,5 +95,4 @@ class FollowingAPIView(APIView):
         profile = Profile.objects.get(user__username=username)
         following = user.profile.follows.all()
         usernames = [follower.user.username for follower in following]
-        print("usernames",usernames)
         return Response(usernames)
