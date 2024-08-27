@@ -54,7 +54,7 @@ const PostCard = ({ post, onNavigate }) => (
     </Card>
 );
 
-export default function Posts({ author = '', onPostCountChange }) {
+export default function Posts({ author = '', onPostCountChange = () => { } }) {
     const { user, loading } = useContext(UserContext);
     const [posts, setPosts] = useState([]);
     const [postsLoading, setPostsLoading] = useState(true);
