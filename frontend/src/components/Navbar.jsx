@@ -13,7 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Fab, Menu, MenuItem } from '@mui/material';
+import { Avatar, Fab, Menu, MenuItem } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -135,13 +135,11 @@ function Navbar(props) {
                   aria-expanded={open ? 'true' : undefined}
                   onClick={handleClick}
                 >
-                  <img
-                    src={user?.image ? `${import.meta.env.VITE_IMAGE_BASE_URL}${user.image}` : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
-                    height={50}
-                    width={50}
-                    alt=""
-                    style={{ borderRadius: '50%', overflow: 'hidden' }}
-                  />
+                  <Avatar
+                src={user?.image ? `${import.meta.env.VITE_IMAGE_BASE_URL}${user.image}` : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
+                alt={"https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+                sx={{ width: 48, height: 48, mr: 2 }}
+            />
                 </Button>
 
                 <Menu
