@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import { Card, Typography, Avatar, Box, Container, Divider, Button } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
+import LikeButton from "./LikeButton";
 
 const PostCard = ({ post, onNavigate }) => (
     <Card
@@ -44,9 +44,7 @@ const PostCard = ({ post, onNavigate }) => (
             </Typography>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-            <Button startIcon={<FavoriteIcon />} size="small" color="primary" variant="text">
-                {post.likes.length}
-            </Button>
+        <LikeButton postId={post.id} numOfLikes={post.likes.length} />
             <Typography variant="body2" color="text.secondary">
                 {new Date(post.created_at).toLocaleDateString()}
             </Typography>

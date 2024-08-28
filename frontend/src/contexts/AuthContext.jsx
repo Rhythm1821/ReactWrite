@@ -1,13 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {jwtDecode} from 'jwt-decode';
 import api from '../api';
-import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -37,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Failed to refresh token", error);
       setIsAuthenticated(false);
-      navigate('/login')
+      window.location.replace('/login');
     }
   };
 
