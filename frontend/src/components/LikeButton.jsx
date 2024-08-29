@@ -9,7 +9,8 @@ const LikeButton = ({ postId, numOfLikes }) => {
   const [toggleNumLikes, setToggleNumLikes] = useState(numOfLikes);
   const [liked, setLiked] = useState(false);
   const handleLikeClick = async () => {
-    setLiked(!liked);
+    setLiked((prevLiked) => !prevLiked);
+    setToggleNumLikes((prevNum)=> liked ? prevNum - 1 : prevNum + 1);
     try {
         const response = await api.post(`/posts/toggle-like-button/${postId}/`);
         setToggleNumLikes(response.data);
