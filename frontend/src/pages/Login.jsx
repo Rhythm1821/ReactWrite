@@ -1,11 +1,12 @@
 import { Navigate } from "react-router-dom"
 import CustomForm from "../components/CustomForm"
+import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => {
+    const { isAuthenticated } = useAuth();
     const token = localStorage.getItem('access_token')
 
-    if (token) {
-        alert('You are already logged in');
+    if (token && isAuthenticated) {
         return <Navigate to={'/'} />
     }
     
