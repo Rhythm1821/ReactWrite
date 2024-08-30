@@ -29,7 +29,7 @@ export default function Posts({ author = '', onPostCountChange = () => { } }) {
         if (!loading && user) {
             fetchPosts();
         }
-    }, [loading, user, fetchPosts]);
+    }, [loading, user]);
 
     if (loading || postsLoading) {
         return <LoadingSpinner />;
