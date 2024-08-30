@@ -69,7 +69,7 @@ export default function PostDetail() {
                     <CardContent>
                         <Box onClick={() => navigate(`/profile/${post.author.id}/`)} sx={{ display: 'flex', alignItems: 'center', mb: 3, cursor: 'pointer' }}>
                             <Avatar
-                                src={post?.author.image ? `${import.meta.env.VITE_IMAGE_BASE_URL}${post.author.image}` : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
+                                src={post?.author?.image ? `${import.meta.env.VITE_IMAGE_BASE_URL}${post.author.image}` : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
                                 alt={"https://cdn-icons-png.flaticon.com/512/149/149071.png"}
                                 sx={{ width: 56, height: 56, mr: 2 }}
                             />

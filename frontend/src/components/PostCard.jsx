@@ -7,7 +7,7 @@ const PostCard = React.memo(({ post }) => {
     const navigate = useNavigate();
 
     const handleNavigate = useCallback(() => {
-        navigate(`/posts/${post.id}/`, {state: { post }});
+        navigate(`/post/${post.id}`, {state: { post }});
     },[post, navigate]);
 
     const handleProfileNavigations = useCallback(()=>{
