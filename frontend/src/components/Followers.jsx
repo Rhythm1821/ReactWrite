@@ -1,41 +1,51 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useMemo, useCallback } from "react";
 import api from "../api";
 import { UserContext } from "../contexts/UserContext";
+import { debounce } from "lodash"; // Assuming you have lodash installed
 
 const Followers = ({ followers, setOpenFollowers }) => {
   const [followingStatus, setFollowingStatus] = useState({});
   const { user, loading } = useContext(UserContext);
 
-  const toggleFollowing = async (id, username) => {
+  const toggleFollowing = useCallback(debounce(async (id, username) => {
+    setFollowingStatus(prevState => ({
+      ...prevState,
+      [username]: 'loading'
+    }));
+
     try {
       await api.post(`/users/following/${username}/`);
       setFollowingStatus(prevState => ({
         ...prevState,
-        [username]: !prevState[username] // Toggle the status
+        [username]: prevState[username] !== 'loading'
       }));
     } catch (error) {
       console.error("Failed to follow/unfollow", error);
+      setFollowingStatus(prevState => ({
+        ...prevState,
+        [username]: prevState[username] === 'loading' ? !prevState[username] : prevState[username]
+      }));
     }
-  };
+  }, 300), []);
 
   useEffect(() => {
+    if (loading || !user) return;
+
     const fetchFollowingStatus = async () => {
-      if (!loading && user) {
-        try {
-          const res = await api.get(`/users/following/${user.username}/`);
-          const status = {};
-          res.data.forEach(username => {
-            status[username] = true;
-          });
-          setFollowingStatus(status);
-        } catch (error) {
-          console.error("Failed to fetch following status", error);
-        }
+      try {
+        const res = await api.get(`/users/following/${user.username}/`);
+        const status = res.data.reduce((acc, username) => {
+          acc[username] = true;
+          return acc;
+        }, {});
+        setFollowingStatus(status);
+      } catch (error) {
+        console.error("Failed to fetch following status", error);
       }
     };
+
     fetchFollowingStatus();
   }, [loading, user]);
-  console.log("followingStatus", followingStatus);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -67,12 +77,11 @@ const Followers = ({ followers, setOpenFollowers }) => {
             >
               <div className="flex items-center space-x-4">
                 <div className="bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center">
-                  {/* Placeholder for profile image */}
-                  <span className="text-sm font-medium">
-                    {follower?.image ? 
-                    <img className="rounded-full" src={`${import.meta.env.VITE_IMAGE_BASE_URL}${follower.image}`} alt="" /> 
-                    : follower.username.charAt(0)}
-                  </span>
+                  {follower.image ? (
+                    <img className="rounded-full" src={`${import.meta.env.VITE_IMAGE_BASE_URL}${follower.image}`} alt="" />
+                  ) : (
+                    <span className="text-sm font-medium">{follower.username.charAt(0)}</span>
+                  )}
                 </div>
                 <div>
                   <p className="font-medium">{follower.username}</p>
@@ -81,8 +90,9 @@ const Followers = ({ followers, setOpenFollowers }) => {
               <button
                 onClick={() => toggleFollowing(follower.id, follower.username)}
                 className="text-red-500 hover:text-red-400 bg-gray-700 hover:bg-gray-600 px-4 py-1 rounded-md"
+                disabled={followingStatus[follower.username] === 'loading'}
               >
-                {followingStatus[follower.username] ? "Following" : "Follow"}
+                {followingStatus[follower.username] === 'loading' ? "Loading..." : followingStatus[follower.username] ? "Following" : "Follow"}
               </button>
             </div>
           ))}
