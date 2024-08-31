@@ -64,6 +64,8 @@ const Profile = () => {
     }
 
     const theme = createTheme();
+    console.log("user", user);
+    console.log("currentUser", currentUser);
 
     return (
         <ThemeProvider theme={theme}>
