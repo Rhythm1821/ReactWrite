@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import {
@@ -19,37 +19,43 @@ import LikeButton from "../components/LikeButton";
 import Comments from "../components/Comments";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { LoadingSpinner } from "../utils";
 
 export default function PostDetail() {
     const { id } = useParams();
     const { state } = useLocation();
     const navigate = useNavigate();
-    const { post: initialPost } = state || {};
+    const [post, setPost] = useState(state || {});
     const { user, loading } = useContext(UserContext);
     const theme = createTheme();
 
-    const post = initialPost || {};
-    
-    const handleDelete = async (id) => {
+    const handleDelete = async (postId) => {
         try {
-            await api.delete(`/posts/delete/${id}/`);
-            return navigate("/");
+            await api.delete(`/posts/delete/${postId}/`);
+            navigate("/");
         } catch (error) {
             console.error("Failed to delete post", error);
         }
     };
 
-    if (loading) {
-        return (
-            <Box className="absolute flex items-center justify-center inset-0 bg-opacity-50">
-                <Box
-                    className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"
-                    role="status"
-                >
-                    <Typography className="sr-only">Loading...</Typography>
-                </Box>
-            </Box>
-        );
+    useEffect(() => {
+        const fetchPost = async () => {
+            try {
+                const res = await api.get(`/posts/${id}/`);
+                console.log(res.data);
+                setPost(res.data);
+            } catch (error) {
+                alert(error);
+            }
+        };
+
+        if (!post.author) {
+            fetchPost();
+        }
+    }, [id, post.author]);
+
+    if (loading || !post.author) {
+        return <LoadingSpinner />;
     }
 
     return (
@@ -67,10 +73,13 @@ export default function PostDetail() {
                     }}
                 >
                     <CardContent>
-                        <Box onClick={() => navigate(`/profile/${post.author.id}/`)} sx={{ display: 'flex', alignItems: 'center', mb: 3, cursor: 'pointer' }}>
+                        <Box
+                            onClick={() => navigate(`/profile/${post.author.id}/`)}
+                            sx={{ display: 'flex', alignItems: 'center', mb: 3, cursor: 'pointer' }}
+                        >
                             <Avatar
-                                src={post?.author?.image ? `${import.meta.env.VITE_IMAGE_BASE_URL}${post.author.image}` : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
-                                alt={"https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+                                src={post.author.image ? `${import.meta.env.VITE_IMAGE_BASE_URL}${post.author.image}` : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
+                                alt={"Profile Avatar"}
                                 sx={{ width: 56, height: 56, mr: 2 }}
                             />
                             <Typography variant="h6" color="text.secondary">
@@ -84,7 +93,7 @@ export default function PostDetail() {
                             </Typography>
                             {user.id === post.author.id && (
                                 <CardActions>
-                                    <IconButton onClick={() => navigate(`/post/edit/${post.id}`, { state: { post } })} size="large">
+                                    <IconButton onClick={() => navigate(`/posts/edit/${post.id}`, { state: { post } })} size="large">
                                         <EditIcon />
                                     </IconButton>
                                     <IconButton onClick={() => handleDelete(post.id)} size="large">

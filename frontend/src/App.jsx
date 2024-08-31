@@ -63,7 +63,14 @@ function App() {
             } />
             <Route path='/profile/edit' element={<ProtectedRoutes><UserProvider><ProfileUpdate /></UserProvider></ProtectedRoutes>} />
             <Route path='/post/edit/:id' element={<ProtectedRoutes><EditPost /></ProtectedRoutes>} />
-            <Route path='/post/:id' element={<ProtectedRoutes><PostDetail /></ProtectedRoutes>} />
+            <Route path='/post/:id' 
+                  element={
+                  <ProtectedRoutes>
+                    <UserProvider>
+                    <PostDetail />
+                    </UserProvider>
+                  </ProtectedRoutes>
+                  } />
           </Routes>
         </main>
       </BrowserRouter>

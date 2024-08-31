@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Card, Typography, Box, Avatar, Container, IconButton, createTheme, ThemeProvider } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate, useParams } from 'react-router-dom';
-import { UserContext } from '../contexts/UserContext';
+import { UserContext, UserProvider } from '../contexts/UserContext';
 import Posts from '../components/Posts';
 import Followers from '../components/Followers';
 import Following from '../components/Following';
@@ -115,7 +115,9 @@ const Profile = () => {
                 </Card>
 
                 {/* All the posts by the profile */}
+                <UserProvider>
                 <Posts author={user.username} onPostCountChange={setPostCount} />
+                </UserProvider>
             </Container>
         </ThemeProvider>
     );
