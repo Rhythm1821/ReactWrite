@@ -42,7 +42,6 @@ export default function PostDetail() {
         const fetchPost = async () => {
             try {
                 const res = await api.get(`/posts/${id}/`);
-                console.log(res.data);
                 setPost(res.data);
             } catch (error) {
                 alert(error);
