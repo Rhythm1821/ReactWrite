@@ -7,6 +7,8 @@ import Posts from '../components/Posts';
 import Followers from '../components/Followers';
 import Following from '../components/Following';
 import api from '../api';
+import { LoadingSpinner } from '../utils';
+import { debounce } from "lodash";
 
 const Profile = () => {
     const [user, setUser] = useState({
@@ -25,6 +27,7 @@ const Profile = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { user: currentUser, loading } = useContext(UserContext);
+    const [followingStatus, setFollowingStatus] = useState(null);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -41,17 +44,23 @@ const Profile = () => {
         fetchUser();
     }, [id]);
 
+    useEffect(() => {
+        if (!loading && currentUser) {
+            setFollowingStatus(currentUser.follows.some(follow => follow.id === user.id));
+        }
+    }, [loading, currentUser, user.id]);
+
+    const handleFollow = debounce(async () => {
+        try {
+            await api.post(`/users/following/${user.username}/`);
+            setFollowingStatus(prevStatus => !prevStatus);
+        } catch (error) {
+            console.error("Failed to follow/unfollow", error);
+        }
+    }, 300);
+
     if (loading || error || !user.username) {
-        return (
-            <div className="absolute flex items-center justify-center inset-0 bg-opacity-50">
-                <div
-                    className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"
-                    role="status"
-                >
-                    <span className="sr-only">Loading...</span>
-                </div>
-            </div>
-        )
+        return <LoadingSpinner />;
     }
 
     const theme = createTheme();
@@ -98,6 +107,23 @@ const Profile = () => {
                                     </div>
                                 </Box>
                                 <Typography variant="body1" color="textSecondary" sx={{ textAlign: { xs: 'center', lg: 'center' }, my: 2 }}>
+                                    {user.id !== currentUser.id && (
+                                        <>
+                                            <button
+                                                onClick={handleFollow}
+                                                className={`px-5 py-1 rounded-md ${followingStatus ? 'bg-gray-300' : 'bg-blue-500 text-white'}`}
+                                            >
+                                                {followingStatus ? "Following" : "Follow"}
+                                            </button>
+                                            {user.follows.some(follow => follow.id === currentUser.id) && (
+                                                <button className='bg-gray-300 px-2 rounded text-xs cursor-default ml-2'>
+                                                    Follows you
+                                                </button>
+                                            )}
+                                        </>
+                                    )}
+                                </Typography>
+                                <Typography variant="body1" color="textSecondary" sx={{ textAlign: { xs: 'center', lg: 'center' }, my: 2 }}>
                                     {user.bio}
                                 </Typography>
                             </Box>
@@ -116,7 +142,7 @@ const Profile = () => {
 
                 {/* All the posts by the profile */}
                 <UserProvider>
-                <Posts author={user.username} onPostCountChange={setPostCount} />
+                    <Posts author={user.username} onPostCountChange={setPostCount} />
                 </UserProvider>
             </Container>
         </ThemeProvider>
