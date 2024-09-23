@@ -14,6 +14,7 @@ import {  ThemeProvider } from '@mui/material/styles'; // Updated import
 import createTheme from '@mui/material/styles/createTheme';
 import EmailIcon from '@mui/icons-material/Email';
 import PersonIcon from '@mui/icons-material/Person';
+import { LoadingSpinner } from "../utils";
 
 const theme = createTheme({
     palette: {
@@ -29,6 +30,7 @@ const theme = createTheme({
 export default function UserAccount() {
     const [userAccount, setUserAccount] = useState({});
     const { user, loading } = useContext(UserContext);
+    console.log("user in my-account", user);
 
     useEffect(() => {
         if (user && user.id) {
@@ -40,9 +42,10 @@ export default function UserAccount() {
 
     if (loading) {
         return (
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-                <Skeleton variant="circular" width={40} height={40} />
-            </Box>
+            // <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+            //     <Skeleton variant="circular" width={40} height={40} />
+            // </Box>
+            <LoadingSpinner />
         );
     }
 

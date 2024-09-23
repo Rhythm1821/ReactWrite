@@ -1,24 +1,24 @@
 import { createContext, useEffect, useState } from "react";
 import api from "../api";
+import { jwtDecode } from "jwt-decode";
+import { useAuth } from "./AuthContext";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { isAuthenticated } = useAuth();
 
     const fetchUser = async () => {
-        const token = localStorage.getItem('access_token');
-        if (token) {
-            try {
-                const response = await api.get(`/users/myprofile/`);
-                setUser(response.data);
-            } catch (error) {
-                console.error("Failed to fetch user", error);
-            }
+        if (isAuthenticated) {
+            const response = await api.get(`/users/myprofile/`);
+            setUser(response.data);
+        } else {
+            setUser(null);
         }
         setLoading(false);
-    };
+    }
 
     useEffect(() => {
         fetchUser();

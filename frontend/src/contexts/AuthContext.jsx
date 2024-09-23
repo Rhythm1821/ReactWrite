@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       const decode = jwtDecode(token);
       const tokenExpiration = decode.exp;
-      const now = Date.now() / 1000;
+      const now = Math.floor(Date.now() / 1000)
 
       if (tokenExpiration < now) {
         refresh_token();

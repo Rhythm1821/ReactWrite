@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,24 +15,36 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Avatar, Fab, Menu, MenuItem } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { UserContext } from '../contexts/UserContext';
 import { useContext, useState } from 'react';
+import { LoadingSpinner } from '../utils';
+import { useAuth } from '../contexts/AuthContext';
 
 const drawerWidth = 240;
 const navItems = ['Home', 'About', 'Contact'];
 
-function Navbar(props) {
+export default function Navbar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
-  const { user, loading } = useContext(UserContext);
+  const location = useLocation();
+  const { user, loading, fetchUser } = useContext(UserContext);
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    fetchUser();
+  }, [isAuthenticated]);
+
+
   if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (location.pathname === '/login' || location.pathname === '/register') {
     return null;
   }
 
@@ -71,7 +83,7 @@ function Navbar(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', marginBottom: '6rem' }}>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -178,7 +190,10 @@ function Navbar(props) {
                 </Menu>
               </>
             ) : (
-              <p>Login</p>
+              <div className='flex gap-4'>
+                <a href="/login">Login</a>
+              <a href="/register">Sign Up</a>
+              </div>
             )}
           </Box>
         </Toolbar>
@@ -204,4 +219,3 @@ function Navbar(props) {
   );
 }
 
-export default Navbar;

@@ -15,7 +15,7 @@ import Contact from './pages/Contact';
 import About from './pages/About';
 import { useAuth } from './contexts/AuthContext';
 import UserAccount from './pages/UserAccount';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 
 function App() {
@@ -27,21 +27,19 @@ function App() {
       localStorage.removeItem('refresh_token');
       window.location.replace('/login');
     }, []);
-  
+
     return null;
   };
 
   return (
     <>
       <BrowserRouter>
-        {isAuthenticated &&
-          <UserProvider>
-            <Navbar />
-          </UserProvider>
-        }
+        <UserProvider>
+          <Navbar />
+        </UserProvider>
         <main className={isAuthenticated ? 'mt-24' : ''}>
           <Routes>
-            <Route path='/' element={<ProtectedRoutes><Home /></ProtectedRoutes>} />
+            <Route path='/' element={<Home />} />
             <Route path='/home' element={<Navigate to={'/'} />} />
             <Route path='/create' element={<ProtectedRoutes>
               <UserProvider>
@@ -63,14 +61,14 @@ function App() {
             } />
             <Route path='/profile/edit' element={<ProtectedRoutes><UserProvider><ProfileUpdate /></UserProvider></ProtectedRoutes>} />
             <Route path='/post/edit/:id' element={<ProtectedRoutes><EditPost /></ProtectedRoutes>} />
-            <Route path='/post/:id' 
-                  element={
-                  <ProtectedRoutes>
-                    <UserProvider>
+            <Route path='/post/:id'
+              element={
+                <ProtectedRoutes>
+                  <UserProvider>
                     <PostDetail />
-                    </UserProvider>
-                  </ProtectedRoutes>
-                  } />
+                  </UserProvider>
+                </ProtectedRoutes>
+              } />
           </Routes>
         </main>
       </BrowserRouter>
