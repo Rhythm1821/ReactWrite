@@ -5,6 +5,11 @@ import api from "../api";
 export default function Comments({ postId, authorId }) {
     const [comments, setComments] = useState([]);
     const [content, setContent] = useState('');
+    const { isAuthenticated } = useAuth()
+
+    if (!isAuthenticated) {
+        return null
+    }
 
     const fetchComments = async () => {
         try {

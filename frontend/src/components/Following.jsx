@@ -5,6 +5,11 @@ import { UserContext } from "../contexts/UserContext";
 const Following = ({ following, setOpenFollowing }) => {
     const [followingStatus, setFollowingStatus] = useState({});
     const { user, loading } = useContext(UserContext);
+    const { isAuthenticated } = useAuth()
+
+    if (!isAuthenticated) {
+        return null
+    }
 
     const toggleFollowing = async (id, username) => {
         try {

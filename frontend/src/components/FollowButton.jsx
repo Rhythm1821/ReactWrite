@@ -7,6 +7,11 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 export default function FollowButton({ status, name }) {
     const [isFollowing, setIsFollowing] = useState(false);
     const [loading, setLoading] = useState(false);
+    const { isAuthenticated } = useAuth()
+
+    if (!isAuthenticated) {
+        return null
+    }
 
     useEffect(() => {
         const fetchFollowStatus = async () => {

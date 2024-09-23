@@ -3,10 +3,16 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import api from '../api';
+import { useAuth } from "../contexts/AuthContext";
 
 const LikeButton = ({ postId, numOfLikes }) => {
   const [toggleNumLikes, setToggleNumLikes] = useState(numOfLikes);
   const [liked, setLiked] = useState(false);
+  const {isAuthenticated} = useAuth()
+
+  if (!isAuthenticated) {
+    return null
+  }
 
   const handleLikeClick = useCallback(async () => {
     setLiked((prevLiked) => !prevLiked);

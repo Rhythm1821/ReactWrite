@@ -6,6 +6,11 @@ import { debounce } from "lodash"; // Assuming you have lodash installed
 const Followers = ({ followers, setOpenFollowers }) => {
   const [followingStatus, setFollowingStatus] = useState({});
   const { user, loading } = useContext(UserContext);
+  const {isAuthenticated} = useAuth()
+
+  if (!isAuthenticated) {
+    return null
+  }
 
   const toggleFollowing = useCallback(debounce(async (id, username) => {
     setFollowingStatus(prevState => ({
