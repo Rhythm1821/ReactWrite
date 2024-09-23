@@ -6,7 +6,7 @@ const Login = () => {
     const { isAuthenticated } = useAuth();
     const token = localStorage.getItem('access_token')
 
-    if (isAuthenticated) {
+    if (token && isAuthenticated) {
         return <Navigate to={'/'} />
     }
     
