@@ -28,7 +28,7 @@ class PostListView(generics.ListCreateAPIView):
 
 class PostDetailView(generics.RetrieveAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_object(self):
         post=Post.objects.get(pk=self.kwargs['pk'])
@@ -94,7 +94,13 @@ class PostLikeView(APIView):
         return Response(request.user in post.likes.all())
     
 class PostCommentView(APIView):
-    permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            self.permission_classes = [IsAuthenticated]
+        else:
+            self.permission_classes = [AllowAny]
+        return super().get_permissions()
 
     def get(self, request, postId):
         post = Post.objects.get(id=postId)

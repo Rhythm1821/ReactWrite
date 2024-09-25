@@ -22,7 +22,7 @@ class RegistrationView(generics.CreateAPIView):
 
 class ProfileView(generics.RetrieveAPIView):
     serializer_class=ProfileSerializer
-    permission_classes=[IsAuthenticated]
+    permission_classes=[AllowAny]
 
     def get_object(self):
         try:
