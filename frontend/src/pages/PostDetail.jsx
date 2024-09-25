@@ -44,7 +44,7 @@ export default function PostDetail() {
                 const res = await api.get(`/posts/${id}/`);
                 setPost(res.data);
             } catch (error) {
-                alert(error);
+                console.log(error);
             }
         };
 
@@ -90,7 +90,7 @@ export default function PostDetail() {
                             <Typography variant="h4" fontWeight="bold">
                                 {post.title}
                             </Typography>
-                            {user.id === post.author.id && (
+                            {user && user?.id === post.author.id && (
                                 <CardActions>
                                     <IconButton onClick={() => navigate(`/posts/edit/${post.id}`, { state: { post } })} size="large">
                                         <EditIcon />

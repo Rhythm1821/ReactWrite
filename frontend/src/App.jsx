@@ -49,9 +49,13 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/logout' element={<Logout />} />
-            <Route path='/contact' element={<ProtectedRoutes><Contact /></ProtectedRoutes>} />
-            <Route path='/about' element={<ProtectedRoutes><UserProvider><About /></UserProvider></ProtectedRoutes>} />
-            <Route path='/profile/:id' element={<ProtectedRoutes><UserProvider><Profile /></UserProvider></ProtectedRoutes>} />
+            <Route path='/contact' element={<Contact />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/profile/:id' element={
+                <UserProvider>
+                  <Profile />
+                </UserProvider>
+            } />
             <Route path='/my-account' element={
               <ProtectedRoutes>
                 <UserProvider>
@@ -63,11 +67,9 @@ function App() {
             <Route path='/post/edit/:id' element={<ProtectedRoutes><EditPost /></ProtectedRoutes>} />
             <Route path='/post/:id'
               element={
-                <ProtectedRoutes>
-                  <UserProvider>
-                    <PostDetail />
-                  </UserProvider>
-                </ProtectedRoutes>
+                <UserProvider>
+                  <PostDetail />
+                </UserProvider>
               } />
           </Routes>
         </main>

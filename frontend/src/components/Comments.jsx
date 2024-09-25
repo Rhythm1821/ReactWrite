@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Box, Button, Card, CardContent, List, ListItem, TextField, Typography } from "@mui/material";
 import api from "../api";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Comments({ postId, authorId }) {
     const [comments, setComments] = useState([]);
     const [content, setContent] = useState('');
     const { isAuthenticated } = useAuth()
-
-    if (!isAuthenticated) {
-        return null
-    }
+    const navigate = useNavigate();
+    
 
     const fetchComments = async () => {
         try {
@@ -26,6 +26,9 @@ export default function Comments({ postId, authorId }) {
 
     const handleComment = async (e) => {
         e.preventDefault();
+        if (!isAuthenticated) {
+            return navigate('/login')
+        }
         try {
             if (!content) return;
             await api.post(`/posts/comments/${postId}/`, { author: authorId, content: content });

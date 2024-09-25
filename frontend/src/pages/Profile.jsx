@@ -9,6 +9,7 @@ import Following from '../components/Following';
 import api from '../api';
 import { LoadingSpinner } from '../utils';
 import { debounce } from "lodash";
+import { useAuth } from '../contexts/AuthContext';
 
 const Profile = () => {
     const [user, setUser] = useState({
@@ -28,6 +29,9 @@ const Profile = () => {
     const navigate = useNavigate();
     const { user: currentUser, loading } = useContext(UserContext);
     const [followingStatus, setFollowingStatus] = useState(null);
+    const { isAuthenticated } = useAuth()
+    console.log(isAuthenticated);
+    
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -51,6 +55,9 @@ const Profile = () => {
     }, [loading, currentUser, user.id]);
 
     const handleFollow = debounce(async () => {
+        if (!isAuthenticated) {
+            return navigate('/login')
+        }
         try {
             await api.post(`/users/following/${user.username}/`);
             setFollowingStatus(prevStatus => !prevStatus);
@@ -64,8 +71,6 @@ const Profile = () => {
     }
 
     const theme = createTheme();
-    console.log("user", user);
-    console.log("currentUser", currentUser);
 
     return (
         <ThemeProvider theme={theme}>
@@ -109,7 +114,7 @@ const Profile = () => {
                                     </div>
                                 </Box>
                                 <Typography variant="body1" color="textSecondary" sx={{ textAlign: { xs: 'center', lg: 'center' }, my: 2 }}>
-                                    {user.id !== currentUser.id && (
+                                    {user.id !== currentUser?.id && (
                                         <>
                                             <button
                                                 onClick={handleFollow}
@@ -117,7 +122,7 @@ const Profile = () => {
                                             >
                                                 {followingStatus ? "Following" : "Follow"}
                                             </button>
-                                            {user.follows.some(follow => follow.id === currentUser.id) && (
+                                            {user.follows.some(follow => follow.id === currentUser?.id) && (
                                                 <button className='bg-gray-300 px-2 rounded text-xs cursor-default ml-2'>
                                                     Follows you
                                                 </button>
@@ -130,7 +135,7 @@ const Profile = () => {
                                 </Typography>
                             </Box>
                         </Box>
-                        {user.id === currentUser.id && (
+                        {user.id === currentUser?.id && (
                             <IconButton 
                               onClick={() => navigate(`/profile/edit/`)} 
                               size="large" 

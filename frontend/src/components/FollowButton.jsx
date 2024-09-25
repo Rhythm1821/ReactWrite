@@ -3,15 +3,12 @@ import api from "../api";
 import { Button, CircularProgress } from "@mui/material";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import { useNavigate } from "react-router-dom";
 
 export default function FollowButton({ status, name }) {
     const [isFollowing, setIsFollowing] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { isAuthenticated } = useAuth()
-
-    if (!isAuthenticated) {
-        return null
-    }
+    
 
     useEffect(() => {
         const fetchFollowStatus = async () => {
