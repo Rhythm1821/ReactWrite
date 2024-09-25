@@ -31,7 +31,7 @@ const CreatePost = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     if (!user) {
-      console.error("User is not logged in");
+      alert("User is not logged in");
       return;
     }
     const author = user.id;
@@ -41,7 +41,7 @@ const CreatePost = () => {
       setContent('');
       return navigate('/');
     } catch (error) {
-      console.error("Failed to create post", error);
+      alert("Failed to create post", error);
     }
   };
 

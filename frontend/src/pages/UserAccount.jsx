@@ -30,13 +30,12 @@ const theme = createTheme({
 export default function UserAccount() {
     const [userAccount, setUserAccount] = useState({});
     const { user, loading } = useContext(UserContext);
-    console.log("user in my-account", user);
 
     useEffect(() => {
         if (user && user.id) {
             api.get(`users/${user.id}/`)
                 .then(res => setUserAccount(res.data))
-                .catch(err => console.error(err));
+                .catch(err => alert(err));
         }
     }, [user]);
 

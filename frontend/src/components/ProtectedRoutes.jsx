@@ -9,7 +9,7 @@ const ProtectedRoutes = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState(null);
 
   useEffect(() => {
-    auth().catch(err => console.error(err));
+    auth().catch(err => alert(err));
   }, []);
 
   const auth = async () => {

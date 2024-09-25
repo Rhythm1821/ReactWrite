@@ -21,7 +21,6 @@ const CustomForm = ({ route, method }) => {
                 navigate('/login')
             }
         } catch (error) {
-            console.log(error);
             setError("autherror", { message: error.response.data.detail || "Something went wrong" })
         } finally {
             setTimeout(() => {

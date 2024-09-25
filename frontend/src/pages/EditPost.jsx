@@ -19,7 +19,7 @@ export default function EditPost() {
           setPost(res.data);
         } catch (error) {
           setError("Failed to fetch post");
-          console.error("Failed to fetch post", error);
+          alert("Failed to fetch post", error);
         } finally {
           setPostLoading(false);
         }
@@ -47,7 +47,7 @@ export default function EditPost() {
         setSnackBarOpen(true)
       })
       .catch((error) => {
-        console.error("Failed to update post", error);
+        alert("Failed to update post", error);
       });
   }
 

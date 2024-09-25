@@ -30,7 +30,6 @@ const Profile = () => {
     const { user: currentUser, loading } = useContext(UserContext);
     const [followingStatus, setFollowingStatus] = useState(null);
     const { isAuthenticated } = useAuth()
-    console.log(isAuthenticated);
     
 
     useEffect(() => {
@@ -40,7 +39,7 @@ const Profile = () => {
                 setUser(res.data);
                 setError(false);
             } catch (error) {
-                console.error("Failed to fetch user", error);
+                alert("Failed to fetch user", error);
                 setError(true);
             }
         };
@@ -62,7 +61,7 @@ const Profile = () => {
             await api.post(`/users/following/${user.username}/`);
             setFollowingStatus(prevStatus => !prevStatus);
         } catch (error) {
-            console.error("Failed to follow/unfollow", error);
+            alert("Failed to follow/unfollow", error);
         }
     }, 300);
 

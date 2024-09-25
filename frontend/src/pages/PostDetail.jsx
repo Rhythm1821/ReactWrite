@@ -34,7 +34,7 @@ export default function PostDetail() {
             await api.delete(`/posts/delete/${postId}/`);
             navigate("/");
         } catch (error) {
-            console.error("Failed to delete post", error);
+            alert("Failed to delete post", error);
         }
     };
 
@@ -44,7 +44,7 @@ export default function PostDetail() {
                 const res = await api.get(`/posts/${id}/`);
                 setPost(res.data);
             } catch (error) {
-                console.log(error);
+                alert(error);
             }
         };
 

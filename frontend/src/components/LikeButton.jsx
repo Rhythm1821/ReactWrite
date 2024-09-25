@@ -24,7 +24,7 @@ const LikeButton = ({ postId, numOfLikes }) => {
       // Revert the UI state if the request fails
       setLiked((prevLiked) => !prevLiked);
       setToggleNumLikes((prevNum) => liked ? prevNum + 1 : prevNum - 1);
-      console.error('Failed to toggle like', error);
+      alert('Failed to toggle like', error);
     }
   }, [liked, postId]);
 
@@ -34,7 +34,7 @@ const LikeButton = ({ postId, numOfLikes }) => {
         const response = await api.get(`/posts/toggle-like-button/${postId}/`);
         setLiked(response.data);
       } catch (error) {
-        console.error('Failed to fetch user in post likes', error);
+        alert('Failed to fetch user in post likes', error);
       }
     };
 

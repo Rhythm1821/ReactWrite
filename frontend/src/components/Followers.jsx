@@ -25,7 +25,7 @@ const Followers = ({ followers, setOpenFollowers }) => {
         [username]: prevState[username] !== 'loading'
       }));
     } catch (error) {
-      console.error("Failed to follow/unfollow", error);
+      alert("Failed to follow/unfollow", error);
       setFollowingStatus(prevState => ({
         ...prevState,
         [username]: prevState[username] === 'loading' ? !prevState[username] : prevState[username]
@@ -45,7 +45,7 @@ const Followers = ({ followers, setOpenFollowers }) => {
         }, {});
         setFollowingStatus(status);
       } catch (error) {
-        console.error("Failed to fetch following status", error);
+        alert("Failed to fetch following status", error);
       }
     };
 

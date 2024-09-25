@@ -19,7 +19,7 @@ const Following = ({ following, setOpenFollowing }) => {
                 [username]: !prevState[username]
             }));
         } catch (error) {
-            console.error("Failed to follow/unfollow", error);
+            alert("Failed to follow/unfollow", error);
         }
     };
 
@@ -34,7 +34,7 @@ const Following = ({ following, setOpenFollowing }) => {
                     });
                     setFollowingStatus(status);
                 } catch (error) {
-                    console.error("Failed to fetch following status", error);
+                    alert("Failed to fetch following status", error);
                 }
             }
         };

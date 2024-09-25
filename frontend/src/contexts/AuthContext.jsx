@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
       }
     } catch (error) {
-      console.error("Failed to refresh token", error);
+      alert("Failed to refresh token", error);
       setIsAuthenticated(false);
       window.location.replace('/login');
     }

@@ -19,7 +19,7 @@ export default function Posts({ author = '', onPostCountChange = () => { } }) {
             setPosts(response.data);
             onPostCountChange(response.data.length);
         } catch (error) {
-            console.error("Failed to fetch posts", error);
+            alert("Failed to fetch posts", error);
         } finally {
             setPostsLoading(false);
         }

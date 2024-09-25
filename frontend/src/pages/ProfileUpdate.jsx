@@ -34,7 +34,6 @@ export default function ProfileUpdate() {
             setUsername(user.username)
             setBio(user.bio)
             setImage(user.image)
-            console.log(user);
         }
     },[user])
 
@@ -71,14 +70,13 @@ export default function ProfileUpdate() {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log(res.data);
 
             if (res.status === 200) {
-                console.log("Profile updated successfully");
+                alert("Profile updated successfully");
             }
             navigate(`/profile/${user.id}/`);
         } catch (error) {
-            console.error("Failed to update profile", error.response ? error.response.data : error);
+            alert("Failed to update profile", error.response ? error.response.data : error);
         } finally {
             setUploading(false);
         }
