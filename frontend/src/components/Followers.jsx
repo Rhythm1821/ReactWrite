@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useMemo, useCallback } from "react";
 import api from "../api";
 import { UserContext } from "../contexts/UserContext";
-import { debounce } from "lodash"; // Assuming you have lodash installed
+import { debounce } from "lodash";
 
 const Followers = ({ followers, setOpenFollowers }) => {
   const [followingStatus, setFollowingStatus] = useState({});

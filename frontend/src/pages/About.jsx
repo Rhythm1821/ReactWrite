@@ -43,10 +43,10 @@ export default function About() {
                         variant="body1" 
                         sx={{ 
                             fontSize: '1.2rem', 
-                            lineHeight: 2, // Increase line height for vertical flow
+                            lineHeight: 2,
                             color: 'text.secondary',
                             textAlign: 'center',
-                            maxWidth: '600px', // Reduce max-width for narrower text block
+                            maxWidth: '600px',
                         }}
                     >
                         ReactWrite is a powerful and user-friendly platform built with React and Django, 

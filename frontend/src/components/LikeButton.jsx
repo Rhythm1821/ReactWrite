@@ -21,7 +21,6 @@ const LikeButton = ({ postId, numOfLikes }) => {
     try {
       await api.post(`/posts/toggle-like-button/${postId}/`);
     } catch (error) {
-      // Revert the UI state if the request fails
       setLiked((prevLiked) => !prevLiked);
       setToggleNumLikes((prevNum) => liked ? prevNum + 1 : prevNum - 1);
       alert('Failed to toggle like', error);

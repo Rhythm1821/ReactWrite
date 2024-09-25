@@ -21,8 +21,6 @@ const VisuallyHiddenInput = styled('input')({
 
 export default function ProfileUpdate() {
     const { user, loading } = useContext(UserContext);
-    
-    // Hooks should be defined unconditionally
     const [username, setUsername] = useState(user?.username || '');
     const [bio, setBio] = useState(user?.bio || '');
     const [image, setImage] = useState(user?.image);

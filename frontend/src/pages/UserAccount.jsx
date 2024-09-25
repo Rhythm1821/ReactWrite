@@ -10,7 +10,7 @@ import {
     Grid, 
     Skeleton 
 } from '@mui/material';
-import {  ThemeProvider } from '@mui/material/styles'; // Updated import
+import {  ThemeProvider } from '@mui/material/styles';
 import createTheme from '@mui/material/styles/createTheme';
 import EmailIcon from '@mui/icons-material/Email';
 import PersonIcon from '@mui/icons-material/Person';
@@ -41,9 +41,6 @@ export default function UserAccount() {
 
     if (loading) {
         return (
-            // <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-            //     <Skeleton variant="circular" width={40} height={40} />
-            // </Box>
             <LoadingSpinner />
         );
     }

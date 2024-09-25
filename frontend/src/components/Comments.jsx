@@ -22,7 +22,7 @@ export default function Comments({ postId, authorId }) {
 
     useEffect(() => {
         fetchComments();
-    }, []); // Adding empty dependency array to run only on mount
+    }, []);
 
     const handleComment = async (e) => {
         e.preventDefault();

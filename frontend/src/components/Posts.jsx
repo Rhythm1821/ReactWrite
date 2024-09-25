@@ -35,10 +35,6 @@ export default function Posts({ author = '', onPostCountChange = () => { } }) {
         return <LoadingSpinner />;
     }
 
-    // if (!user) {
-    //     return <ErrorMessage message="User data not available" />;
-    // }
-
     if (posts.length === 0) {
         return <EmptyState message="No posts available" />;
     }
