@@ -25,16 +25,13 @@ const CustomForm = ({ route, method }) => {
         navigate('/login');
       }
 
-      // Reset the form only after successful submission
       reset();
 
     } catch (error) {
-      // Set the error message for the form
       setError("autherror", { message: error?.response?.data?.detail || "Something went wrong" });
     }
   };
 
-  // Clear errors when the input field changes
   const handleInputChange = () => {
     if (errors.autherror) {
       clearErrors("autherror");
@@ -69,10 +66,9 @@ const CustomForm = ({ route, method }) => {
               maxLength: { value: 10, message: "Max length is 10" }
             }}
             error={errors.username}
-            onChange={handleInputChange}  // Clear error on input change
+            onChange={handleInputChange} 
           />
 
-          {/* Email Field (Only for Register) */}
           {method === 'register' && (
             <FormInput
               label="Email"
@@ -87,7 +83,7 @@ const CustomForm = ({ route, method }) => {
                 }
               }}
               error={errors.email}
-              onChange={handleInputChange}  // Clear error on input change
+              onChange={handleInputChange} 
             />
           )}
 
@@ -102,7 +98,7 @@ const CustomForm = ({ route, method }) => {
               minLength: { value: 6, message: "Min length is 6" }
             }}
             error={errors.password}
-            onChange={handleInputChange}  // Clear error on input change
+            onChange={handleInputChange} 
           />
 
           {/* Submit Button */}
@@ -125,7 +121,6 @@ const CustomForm = ({ route, method }) => {
   );
 };
 
-// Reusable Form Input Component
 const FormInput = ({ label, name, type, register, rules, error, onChange }) => (
   <>
     <input
@@ -133,14 +128,13 @@ const FormInput = ({ label, name, type, register, rules, error, onChange }) => (
       type={type}
       placeholder={label}
       {...register(name, rules)}
-      onChange={onChange}  // Trigger error clearing
+      onChange={onChange} 
     />
     {error && <div className="text-red-500">{error.message}</div>}
   </>
 );
 
 
-// Submit Button Component
 const SubmitButton = ({ isSubmitting }) => (
   <button
     type="submit"

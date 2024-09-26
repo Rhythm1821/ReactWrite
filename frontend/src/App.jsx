@@ -13,11 +13,13 @@ import Navbar from './components/Navbar';
 import CreatePost from './pages/CreatePost';
 import Contact from './pages/Contact';
 import About from './pages/About';
+import { useAuth } from './contexts/AuthContext';
 import UserAccount from './pages/UserAccount';
 import React, { useEffect } from 'react';
 
 
 function App() {
+  const { isAuthenticated } = useAuth();
 
   const Logout = () => {
     useEffect(() => {
@@ -30,32 +32,49 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <UserProvider>
-        <Navbar />
-        <main>
+    <>
+      <BrowserRouter>
+        <UserProvider>
+          <Navbar />
+        </UserProvider>
+        <main className={isAuthenticated ? 'mt-24' : ''}>
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/home' element={<Navigate to={'/'} />} />
+            <Route path='/create' element={<ProtectedRoutes>
+              <UserProvider>
+                <CreatePost />
+              </UserProvider>
+            </ProtectedRoutes>} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/logout' element={<Logout />} />
             <Route path='/contact' element={<Contact />} />
             <Route path='/about' element={<About />} />
-            {/* Protected Routes */}
-            <Route element={<ProtectedRoutes />}>
-              <Route path='/create' element={<CreatePost />} />
-              <Route path='/my-account' element={<UserAccount />} />
-              <Route path='/profile/edit' element={<ProfileUpdate />} />
-              <Route path='/post/edit/:id' element={<EditPost />} />
-            </Route>
-            {/* User-specific routes */}
-            <Route path='/profile/:id' element={<Profile />} />
-            <Route path='/post/:id' element={<PostDetail />} />
+            <Route path='/profile/:id' element={
+                <UserProvider>
+                  <Profile />
+                </UserProvider>
+            } />
+            <Route path='/my-account' element={
+              <ProtectedRoutes>
+                <UserProvider>
+                  <UserAccount />
+                </UserProvider>
+              </ProtectedRoutes>
+            } />
+            <Route path='/profile/edit' element={<ProtectedRoutes><UserProvider><ProfileUpdate /></UserProvider></ProtectedRoutes>} />
+            <Route path='/post/edit/:id' element={<ProtectedRoutes><EditPost /></ProtectedRoutes>} />
+            <Route path='/post/:id'
+              element={
+                <UserProvider>
+                  <PostDetail />
+                </UserProvider>
+              } />
           </Routes>
         </main>
-      </UserProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </>
   );
 }
 
